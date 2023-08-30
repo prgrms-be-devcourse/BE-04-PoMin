@@ -3,7 +3,7 @@ package com.ray.pomin.review.domain;
 import com.ray.pomin.global.domain.BaseEntity;
 import com.ray.pomin.order.domain.Order;
 import com.ray.pomin.store.domain.Store;
-import com.ray.pomin.user.domain.User;
+import com.ray.pomin.user.domain.Customer;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -27,7 +27,7 @@ public class Review extends BaseEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "USER_ID")
-    private User user;
+    private Customer user;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "STORE_ID")
