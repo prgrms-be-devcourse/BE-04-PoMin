@@ -4,6 +4,7 @@ import com.ray.pomin.global.domain.BaseEntity;
 import com.ray.pomin.order.domain.Order;
 import com.ray.pomin.store.domain.Store;
 import com.ray.pomin.user.domain.Customer;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -12,6 +13,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -38,8 +44,11 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "STORE_ID")
     private Store store;
 
-    @ManyToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "ORDER_ID")
     private Order order;
+
+    @OneToMany(fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReviewImage> images = new ArrayList<>();
 
 }
