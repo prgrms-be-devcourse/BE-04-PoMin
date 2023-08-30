@@ -37,7 +37,7 @@ public class Store extends BaseEntity {
     private String imageUrl;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "USER_ID")
-    private Customer user;
+    @JoinColumn(name = "CUSTOMER_ID")
+    private Customer customer;
 
 }

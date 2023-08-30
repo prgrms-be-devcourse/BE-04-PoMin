@@ -31,8 +31,8 @@ public class Order extends BaseEntity {
     private String requestContent;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "USER_ID")
-    private Customer user;
+    @JoinColumn(name = "CUSTOMER_ID")
+    private Customer customer;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "STORE_ID")

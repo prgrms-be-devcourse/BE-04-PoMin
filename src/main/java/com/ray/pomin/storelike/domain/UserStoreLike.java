@@ -19,8 +19,8 @@ public class UserStoreLike extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "USER_ID")
-    private Customer user;
+    @JoinColumn(name = "CUSTOMER_ID")
+    private Customer customer;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "STORE_ID")
