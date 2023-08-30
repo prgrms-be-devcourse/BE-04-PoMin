@@ -10,7 +10,7 @@ import jakarta.persistence.ManyToOne;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
-public class AdminReview extends BaseEntity {
+public class OwnerReview extends BaseEntity {
 
     @Id
     @GeneratedValue
