@@ -9,6 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -38,6 +40,8 @@ public class Store extends BaseEntity {
 
     private String imageUrl;
 
+    @Getter
+    @Setter
     @Enumerated(STRING)
     private StoreStatus status;
 
