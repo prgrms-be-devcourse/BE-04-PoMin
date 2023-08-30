@@ -7,6 +7,7 @@ import com.ray.pomin.user.domain.Customer;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -32,7 +33,7 @@ public class Review extends BaseEntity {
     @Embedded
     private Star star;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private VisibleType visibleType;
 
     @ManyToOne(fetch = LAZY)
