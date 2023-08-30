@@ -1,6 +1,5 @@
 package com.ray.pomin.review.domain;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,4 +16,3 @@ public class Star {
   private int star;
 
 }
-

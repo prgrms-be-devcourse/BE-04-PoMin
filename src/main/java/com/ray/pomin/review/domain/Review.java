@@ -5,7 +5,6 @@ import com.ray.pomin.order.domain.Order;
 import com.ray.pomin.store.domain.Store;
 import com.ray.pomin.user.domain.Customer;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
