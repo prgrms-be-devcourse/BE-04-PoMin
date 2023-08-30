@@ -4,7 +4,10 @@ import com.ray.pomin.global.domain.BaseEntity;
 import com.ray.pomin.order.domain.Order;
 import com.ray.pomin.store.domain.Store;
 import com.ray.pomin.user.domain.Customer;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -21,8 +24,10 @@ public class Review extends BaseEntity {
 
     private String content;
 
-    private int star;
+    @Embedded
+    private Star star;
 
+    @Enumerated
     private VisibleType visibleType;
 
     @ManyToOne(fetch = LAZY)
