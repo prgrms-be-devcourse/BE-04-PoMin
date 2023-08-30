@@ -2,7 +2,7 @@ package com.ray.pomin.order.domain;
 
 import com.ray.pomin.global.domain.BaseEntity;
 import com.ray.pomin.store.domain.Store;
-import com.ray.pomin.user.domain.User;
+import com.ray.pomin.user.domain.Customer;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,8 +31,8 @@ public class Order extends BaseEntity {
     private String requestContent;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "USER_ID")
-    private User user;
+    @JoinColumn(name = "CUSTOMER_ID")
+    private Customer customer;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "STORE_ID")

@@ -8,11 +8,11 @@ import jakarta.persistence.Id;
 import java.time.LocalDate;
 
 @Entity
-public class User extends BaseEntity {
+public class Customer extends BaseEntity {
 
     @Id
     @GeneratedValue
-    protected Long id;
+    private Long id;
 
     private String email;
 
@@ -29,7 +29,5 @@ public class User extends BaseEntity {
     private String oauthProvider;
 
     private String address;
-
-    private UserRole role;
 
 }
