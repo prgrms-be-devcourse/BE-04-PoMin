@@ -6,9 +6,9 @@
 > 프로젝트 기간 : 2023/08/29 ~ 2023/09/22
 
 ## 📌 팀원소개
-|                                 Product Owner                                  |              Scrum Master               |                                                    Developer                                                    |
-|:--:|:---:|:---------------------------------------------------------------------------------------------------------------:|
-|                      [주홍석](https://github.com/Juhongseok)                      | [김범우](https://github.com/beomukim) | [박현지](https://github.com/juno-junho), [최지연](https://github.com/ddongpuri) [황준호](https://github.com/juno-junho) |
+|                                 Product Owner                                  |              Scrum Master               |                                                                    Developer                                                                     |
+|:--:|:---:|:------------------------------------------------------------------------------------------------------------------------------------------------:|
+|                      [주홍석](https://github.com/Juhongseok)                      | [김범우](https://github.com/beomukim) | [박현지](https://github.com/hyeon-z), [최성원](https://github.com/choi5798), [최지연](https://github.com/ddongpuri), [황준호](https://github.com/juno-junho) |
 
 ## 📌 기술스택
 
