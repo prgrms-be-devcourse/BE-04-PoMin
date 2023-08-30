@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 import java.util.stream.Stream;
 
@@ -18,11 +19,11 @@ class OwnerTest {
     void successCreateOwnerDomain() {
         // given
         String loginId = "owner";
-        String password = "owner1!";
+        String password = "owner1234!!";
         String email = "owner@gmail.com";
 
         // when
-        Owner owner = new Owner(loginId, password, email);
+        Owner owner = new Owner(loginId, password, email, NoOpPasswordEncoder.getInstance());
 
         // then
         assertThat(owner).isNotNull();
@@ -33,7 +34,7 @@ class OwnerTest {
     @DisplayName("검증 로직 실패로 인해사장 생성에 실패한다")
     void failCreateOwnerWithFailValidation(String loginId, String password, String email) {
         // when & then
-        assertThatThrownBy(() -> new Owner(loginId, password, email))
+        assertThatThrownBy(() -> new Owner(loginId, password, email, NoOpPasswordEncoder.getInstance()))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

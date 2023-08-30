@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 import java.util.Optional;
 
@@ -28,7 +29,7 @@ class OwnerServiceTest {
     @Test
     void successSaveOwner() {
         // given
-        Owner owner = new Owner("owner", "owner1!", "owner@gmail.com");
+        Owner owner = new Owner("owner", "owner1234!", "owner@gmail.com", NoOpPasswordEncoder.getInstance());
         given(ownerRepository.findByLoginId("owner")).willReturn(Optional.empty());
         given(ownerRepository.save(owner)).willReturn(owner);
 
@@ -43,7 +44,7 @@ class OwnerServiceTest {
     @Test
     void failSaveOwnerWithUsedLoginId() {
         // given
-        Owner owner = new Owner("owner", "owner1!", "owner@gmail.com");
+        Owner owner = new Owner("owner", "owner1234!", "owner@gmail.com", NoOpPasswordEncoder.getInstance());
         given(ownerRepository.findByLoginId("owner")).willReturn(Optional.of(owner));
 
         // when & then
