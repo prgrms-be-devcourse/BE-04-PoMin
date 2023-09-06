@@ -27,6 +27,7 @@ public class CustomerInfo {
     public CustomerInfo(String name, LocalDate birthDate, PhoneNumber phoneNumber) {
         validate(hasContent(name), "이름은 필수값 입니다");
         validate(!isNull(birthDate), "생일정보는 필수 값 입니다");
+        validate(!isNull(phoneNumber), "핸드폰 번호는 필수 값 입니다");
 
         this.name = name;
         this.birthDate = birthDate;
