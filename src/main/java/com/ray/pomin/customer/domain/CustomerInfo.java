@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+import static com.ray.pomin.global.util.Validator.Condition.hasContent;
+import static com.ray.pomin.global.util.Validator.validate;
+import static java.util.Objects.isNull;
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
@@ -22,6 +25,9 @@ public class CustomerInfo {
     private PhoneNumber phoneNumber;
 
     public CustomerInfo(String name, LocalDate birthDate, PhoneNumber phoneNumber) {
+        validate(hasContent(name), "이름은 필수값 입니다");
+        validate(!isNull(birthDate), "생일정보는 필수 값 입니다");
+
         this.name = name;
         this.birthDate = birthDate;
         this.phoneNumber = phoneNumber;
