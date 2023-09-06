@@ -19,9 +19,9 @@ public class CustomerInfo {
 
     private LocalDate birthDate;
 
-    private String phoneNumber;
+    private PhoneNumber phoneNumber;
 
-    public CustomerInfo(String name, LocalDate birthDate, String phoneNumber) {
+    public CustomerInfo(String name, LocalDate birthDate, PhoneNumber phoneNumber) {
         this.name = name;
         this.birthDate = birthDate;
         this.phoneNumber = phoneNumber;
