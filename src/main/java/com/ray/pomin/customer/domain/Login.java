@@ -17,9 +17,9 @@ public class Login {
 
     private String password;
 
-    private String provider;
+    private Provider provider;
 
-    public Login(String email, String password, String provider) {
+    public Login(String email, String password, Provider provider) {
         this.email = email;
         this.password = password;
         this.provider = provider;
