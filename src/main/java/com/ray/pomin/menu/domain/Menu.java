@@ -20,7 +20,7 @@ public class Menu extends BaseTimeEntity {
 
     private String name;
 
-    private Long price;
+    private int price;
 
     private String description;
 

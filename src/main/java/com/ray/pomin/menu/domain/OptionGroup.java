@@ -27,7 +27,7 @@ public class OptionGroup extends BaseTimeEntity {
     @Column(name = "default_selection")
     private boolean defaultSelection;
 
-    @Column(name = "exclusice_selection")
+    @Column(name = "exclusive_selection")
     private boolean exclusiveSelection;
 
     private int maxSize;

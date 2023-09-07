@@ -20,7 +20,7 @@ public class Option extends BaseTimeEntity {
 
     private String name;
 
-    private Long price;
+    private int price;
 
     @ManyToOne
     @JoinColumn(name = "option_group_id")
