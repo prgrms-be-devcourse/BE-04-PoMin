@@ -3,6 +3,8 @@ spring:
     active: dev
   jpa:
     open-in-view: false
+  config:
+    import: sub/application-kakao.yml
 ---
 spring:
   config:
