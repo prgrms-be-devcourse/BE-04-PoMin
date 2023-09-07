@@ -7,17 +7,19 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.NoArgsConstructor;
 
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
+@Table(name = "option_group")
 @NoArgsConstructor(access = PROTECTED)
 public class OptionGroup extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "option_id")
+    @Column(name = "option_group_id")
     private Long id;
 
     private String name;
