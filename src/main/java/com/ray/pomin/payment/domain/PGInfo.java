@@ -1,19 +1,18 @@
 package com.ray.pomin.payment.domain;
 
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.NoArgsConstructor;
-
-import java.util.Set;
 
 import static lombok.AccessLevel.*;
 
 @Embeddable
 @NoArgsConstructor(access = PROTECTED)
-public class GatewayInfo {
+public class PGInfo {
 
-  private static final Set<String> options = Set.of("TOSS", "NICE", "NHN", "NONE");
-
-  private String name; // PG사 이름
+  @Enumerated(EnumType.STRING)
+  private PG company; // pg 사
 
   private String payKey; // 거래 key
 

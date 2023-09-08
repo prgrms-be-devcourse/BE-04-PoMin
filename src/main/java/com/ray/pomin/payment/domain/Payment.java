@@ -26,7 +26,7 @@ public class Payment extends BaseTimeEntity {
   private PaymentStatus status; // 결제상태 : 완료, 취소
 
   @Embedded
-  private GatewayInfo gatewayInfo; // PG사 관련 정보
+  private PGInfo pgInfo; // PG사 관련 정보
 
   @Embedded
   private Method method; // 결제 수단 정보
