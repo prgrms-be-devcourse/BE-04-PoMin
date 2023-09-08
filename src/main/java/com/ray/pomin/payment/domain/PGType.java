@@ -1,6 +1,6 @@
 package com.ray.pomin.payment.domain;
 
-public enum PG {
+public enum PGType {
   TOSS,
   NHN,
   NICE,
