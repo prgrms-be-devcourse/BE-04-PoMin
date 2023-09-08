@@ -5,7 +5,7 @@ import com.ray.pomin.common.util.OrderNumberGenerator;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-public class OrderInfo extends BaseTimeEntity {
+public class OrderInfo {
 
     private String orderNumber;
 
