@@ -7,14 +7,13 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderInfo extends BaseTimeEntity {
 
     private String orderNumber;
 
     private String registrationNumber;
 
-    public OrderInfo(String orderNumber) {
+    public OrderInfo() {
         this.orderNumber = OrderNumberGenerator.generateOrderNumber();
     }
 
