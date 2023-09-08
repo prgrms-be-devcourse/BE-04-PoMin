@@ -24,6 +24,6 @@ public class OrderOptionGroup extends BaseTimeEntity {
     private String name;
 
     @ManyToOne
-    private OrderLineItem orderLineItem;
+    private OrderItem orderItem;
 
 }

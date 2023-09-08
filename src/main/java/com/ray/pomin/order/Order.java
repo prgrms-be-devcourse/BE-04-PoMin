@@ -31,7 +31,7 @@ public class Order extends BaseTimeEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
-    private List<OrderLineItem> orderLineItems = new ArrayList<>();
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     public void place() {
         validateOrder();
