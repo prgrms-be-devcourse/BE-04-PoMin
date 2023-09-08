@@ -9,17 +9,18 @@ public class OrderNumberGenerator {
     public static String generateOrderNumber() {
         long currentTimeMillis = System.currentTimeMillis();
         String randomDigits = generateRandomDigits();
-        String orderNumber = randomDigits + currentTimeMillis;
-        return orderNumber;
+        return randomDigits + currentTimeMillis;
     }
 
     private static String generateRandomDigits() {
         Random random = new Random();
         StringBuilder stringBuilder = new StringBuilder();
+
         for (int i = 0; i < RANDOM_DIGITS; i++) {
             int digit = random.nextInt(10);
             stringBuilder.append(digit);
         }
+
         return stringBuilder.toString();
     }
 
