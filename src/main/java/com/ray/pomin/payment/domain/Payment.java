@@ -38,6 +38,7 @@ public class Payment extends BaseTimeEntity {
     validate(!isNull(status), "결제상태는 필수 값입니다");
     validate(!isNull(pgInfo), "PG사 정보는 필수 값입니다");
     validate(!isNull(payInfo), "결제 수단 정보는 필수 값입니다");
+
     this.amount = amount;
     this.status = status;
     this.pgInfo = pgInfo;

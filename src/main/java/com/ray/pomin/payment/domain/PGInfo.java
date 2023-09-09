@@ -26,6 +26,7 @@ public class PGInfo {
   public PGInfo(PGType provider, String payKey) {
     validate(!isNull(provider), "PG사는 필수 값입니다");
     validate(hasContent(payKey), "결제키는 필수 값입니다");
+
     this.provider = provider;
     this.payKey = payKey;
   }

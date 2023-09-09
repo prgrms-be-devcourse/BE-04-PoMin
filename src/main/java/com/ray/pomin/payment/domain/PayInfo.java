@@ -26,6 +26,7 @@ public class PayInfo {
     validate(!Objects.isNull(method), "결제 수단은 필수 값입니다");
     validate(!Objects.isNull(type), "결제 종류는 필수 값입니다");
     validate(method.hasPayType(type), "지원하지 않는 결제 종류입니다");
+
     this.method = method;
     this.type = type;
   }
