@@ -19,20 +19,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "ORDERS")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "order_id")
+    @Column(name = "ORDER_ID")
     private Long id;
 
     @Embedded
     private OrderInfo orderInfo;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "ORDER_ID")
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @OneToOne
