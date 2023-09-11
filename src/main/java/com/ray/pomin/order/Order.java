@@ -37,6 +37,9 @@ public class Order extends BaseTimeEntity {
     @JoinColumn(name = "ORDER_ID")
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    @Column(name = "STORE_ID")
+    private Long storeId;
+
     @OneToOne
     @JoinColumn(name = "PAYMENT_ID")
     private Payment payment;
