@@ -8,7 +8,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static com.ray.pomin.global.util.Validator.Condition.regex;
 import static com.ray.pomin.global.util.Validator.validate;
-import static java.util.Objects.isNull;
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
@@ -25,16 +24,12 @@ public class Login {
 
     private String password;
 
-    private Provider provider;
-
-    public Login(String email, String password, Provider provider, PasswordEncoder passwordEncoder) {
+    public Login(String email, String password, PasswordEncoder passwordEncoder) {
         validate(regex(EMAIL_PATTERN, email), "이메일 패턴이 일치하지 않습니다");
         validate(regex(PASSWORD_PATTERN, password), "비밀번호 패턴이 일치하지 않습니다");
-        validate(!isNull(provider), "로그인 제공자 정보는 필수 값입니다");
 
         this.email = email;
         this.password = passwordEncoder.encode(password);
-        this.provider = provider;
     }
 
 }
