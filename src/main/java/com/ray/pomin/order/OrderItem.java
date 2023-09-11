@@ -17,6 +17,9 @@ public class OrderItem extends BaseTimeEntity {
     @Column(name = "order_item_id")
     private Long id;
 
+    @Column(name = "MENU_ID")
+    private Long menuId;
+
     private String name;
 
     private int count;

@@ -15,7 +15,7 @@ public class Menu extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "menu_id")
+    @Column(name = "MENU_ID")
     private Long id;
 
     private String name;
