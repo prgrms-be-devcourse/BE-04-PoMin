@@ -26,13 +26,13 @@ public class OrderTest {
     @Test
     public void testOrderValidation() {
         assertThrows(IllegalArgumentException.class, () -> {
-            order.validateOrder();
+            order.place();
         });
 
         order.getOrderItems().add(new OrderItem());
 
         assertDoesNotThrow(() -> {
-            order.validateOrder();
+            order.place();
         });
     }
 

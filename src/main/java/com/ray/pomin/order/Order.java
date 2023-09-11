@@ -56,7 +56,7 @@ public class Order extends BaseTimeEntity {
         ordered();
     }
 
-    public void validateOrder() {
+    private void validateOrder() {
         if (orderItems.isEmpty()) {
             throw new IllegalArgumentException("주문 항목이 비어 있습니다");
         }
