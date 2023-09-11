@@ -1,6 +1,7 @@
 package com.ray.pomin.order;
 
 import com.ray.pomin.common.domain.BaseTimeEntity;
+import com.ray.pomin.payment.domain.Payment;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -9,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -32,6 +34,10 @@ public class Order extends BaseTimeEntity {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private List<OrderItem> orderItems = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "PAYMENT_ID")
+    private Payment payment;
 
     public void place() {
         validateOrder();
