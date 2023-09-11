@@ -1,0 +1,6 @@
+jwt:
+  secretKey: secretkey123
+  info:
+    access:
+      expiration: 3600
+      header: Authorization
