@@ -18,8 +18,8 @@ public class OrderService {
 
     @Transactional
     public void payOrder(Long orderId) {
-        Order order = orderRepository.findById(orderId).orElseThrow(
-                () -> new IllegalArgumentException("해당 주문이 없습니다."));
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 주문이 없습니다."));
         order.payed();
     }
 
