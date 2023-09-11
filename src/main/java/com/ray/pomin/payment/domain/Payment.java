@@ -21,17 +21,17 @@ public class Payment extends BaseTimeEntity {
   @Id
   @GeneratedValue
   @Column(name = "PAYMENT_ID")
-  private Long id; // 결제 ID
+  private Long id;
 
-  private int amount; // 결제금액
+  private int amount;
 
-  private PaymentStatus status; // 결제상태 : 완료, 취소
-
-  @Embedded
-  private PGInfo pgInfo; // PG사 관련 정보
+  private PaymentStatus status;
 
   @Embedded
-  private PayInfo payInfo; // 결제 수단 상세 정보
+  private PGInfo pgInfo;
+
+  @Embedded
+  private PayInfo payInfo;
 
   public Payment(int amount, PaymentStatus status, PGInfo pgInfo, PayInfo payInfo) {
     validate(amount > 0, "결제금액은 0 보다 커야합니다");
