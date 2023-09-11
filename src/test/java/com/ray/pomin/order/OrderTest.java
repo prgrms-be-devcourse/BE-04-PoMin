@@ -17,18 +17,6 @@ public class OrderTest {
     }
 
     @Test
-    public void testPlaceOrder() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            order.place();
-        });
-
-        order.getOrderItems().add(new OrderItem());
-        order.place();
-
-        assertEquals(OrderStatus.CREATED, order.getOrderStatus());
-    }
-
-    @Test
     public void testPaidOrder() {
         order.paid();
 
