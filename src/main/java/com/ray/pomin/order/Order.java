@@ -6,6 +6,8 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -39,12 +41,21 @@ public class Order extends BaseTimeEntity {
     @JoinColumn(name = "PAYMENT_ID")
     private Payment payment;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS")
+    private OrderStatus orderStatus;
+
     public void place() {
         validateOrder();
         ordered();
     }
 
     private void ordered() {
+        this.orderStatus = OrderStatus.CREATED;
+    }
+
+    private void payed() {
+        this.orderStatus = OrderStatus.PAID;
     }
 
     private void validateOrder() {
