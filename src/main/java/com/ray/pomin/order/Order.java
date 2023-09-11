@@ -63,7 +63,7 @@ public class Order extends BaseTimeEntity {
         this.orderStatus = OrderStatus.CREATED;
     }
 
-    public void payed() {
+    public void paid() {
         this.orderStatus = OrderStatus.PAID;
     }
 
