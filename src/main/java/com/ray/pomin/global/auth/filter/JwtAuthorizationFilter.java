@@ -29,16 +29,19 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String accessToken = extractAccessToken(request);
 
-        if (accessToken.isBlank()) {
-            return;
+        if (!accessToken.isBlank()) {
+            saveAuthentication(accessToken);
         }
-        saveAuthentication(accessToken);
 
         filterChain.doFilter(request, response);
     }
 
     private String extractAccessToken(HttpServletRequest request) {
-        String authorizationHeader = request.getHeader(jwtProperties.getHeaderName("accessToken"));
+        String authorizationHeader = request.getHeader(jwtProperties.getHeaderName("access"));
+
+        if (authorizationHeader == null) {
+            return "";
+        }
 
         return authorizationHeader.replace("Bearer ", "");
     }
