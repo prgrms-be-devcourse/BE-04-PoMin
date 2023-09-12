@@ -10,9 +10,7 @@ spring:
   config:
     activate:
       on-profile: dev
-    import: dev/application-db.yml, dev/application-payment.yml, dev/application-jwt.yml
----
-spring:
+    import: dev/application-db.yml, dev/application-jwt.yml, dev/application-payment.yml
   mvc:
     view:
       prefix: classpath:/templates/

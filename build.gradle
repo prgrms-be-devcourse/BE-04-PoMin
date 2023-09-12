@@ -32,25 +32,22 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
-    compileOnly 'org.projectlombok:lombok'
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
-	// 타임리프 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-	// json 의존성 추가
-	implementation 'org.json:org.json:chargebee-1.0'
 
+	implementation 'org.json:org.json:chargebee-1.0'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
 	implementation 'com.auth0:java-jwt:4.3.0'
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-
 }
 
 tasks.named('test') {
