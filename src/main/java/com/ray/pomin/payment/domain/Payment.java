@@ -4,13 +4,15 @@ import com.ray.pomin.common.domain.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import static com.ray.pomin.global.util.Validator.validate;
-import static java.util.Objects.*;
+import static jakarta.persistence.EnumType.STRING;
+import static java.util.Objects.isNull;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -25,6 +27,7 @@ public class Payment extends BaseTimeEntity {
 
   private int amount;
 
+  @Enumerated(STRING)
   private PaymentStatus status;
 
   @Embedded
@@ -45,4 +48,7 @@ public class Payment extends BaseTimeEntity {
     this.payInfo = payInfo;
   }
 
+  public Long getId() {
+    return id;
+  }
 }
