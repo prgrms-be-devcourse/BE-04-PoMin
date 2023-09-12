@@ -20,7 +20,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.ray.pomin.payment.domain.PayMethod.*;
+import static com.ray.pomin.payment.domain.PayMethod.EASYPAY;
+import static com.ray.pomin.payment.domain.PayMethod.findByTitle;
 import static com.ray.pomin.payment.domain.PaymentStatus.COMPLETE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Base64.getEncoder;
