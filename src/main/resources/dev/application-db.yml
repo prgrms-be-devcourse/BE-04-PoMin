@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:h2:tcp://localhost/~/pomin
     username: sa
-    password:
+    password: 1234
   jpa:
     hibernate:
       ddl-auto: create
