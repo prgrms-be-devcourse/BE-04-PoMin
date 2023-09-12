@@ -5,6 +5,8 @@ import com.ray.pomin.order.repository.OrderRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OrderService {
 
@@ -21,4 +23,14 @@ public class OrderService {
         order.paid();
     }
 
+    @Transactional
+    public Order createOrder(Order order) {
+        order.place();
+        orderRepository.save(order);
+        return order;
+    }
+
+    public List<Order> getOrdersByCustomerId(Long customerId) {
+        return orderRepository.findByCustomerId(customerId);
+    }
 }

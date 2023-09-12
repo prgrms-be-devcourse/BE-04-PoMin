@@ -15,6 +15,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,10 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Builder
 @Table(name = "ORDERS")
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order extends BaseTimeEntity {
 
+    @Getter
     @Id
     @GeneratedValue
     @Column(name = "ORDER_ID")
@@ -41,6 +46,9 @@ public class Order extends BaseTimeEntity {
 
     @Column(name = "STORE_ID")
     private Long storeId;
+
+    @Column(name = "CUSTOMER_ID")
+    private Long customerId;
 
     @OneToOne
     @JoinColumn(name = "PAYMENT_ID")
