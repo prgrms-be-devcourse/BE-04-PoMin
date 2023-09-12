@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.ray.pomin.global.auth.model.Claims;
+import com.ray.pomin.global.auth.model.Token;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +19,15 @@ public class JwtService {
 
     private final JwtProperties properties;
 
-    public String createToken(Claims claims) {
-        return JWT.create()
+    public Token createToken(Claims claims) {
+        String accessToken = JWT.create()
                 .withSubject(TOKEN_NAME)
                 .withExpiresAt(new Date(claims.expiration().getTime() + properties.getExpiration(TOKEN_NAME)))
                 .withClaim("id", claims.id())
                 .withClaim("role", claims.role())
                 .sign(Algorithm.HMAC512(properties.secretKey()));
+
+        return new Token(accessToken);
     }
 
     public Claims extractClaim(String accessToken) {

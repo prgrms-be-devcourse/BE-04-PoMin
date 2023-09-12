@@ -4,6 +4,9 @@ import com.ray.pomin.customer.controller.base.ControllerUnit;
 import com.ray.pomin.customer.controller.dto.SaveCustomerRequest;
 import com.ray.pomin.customer.domain.Customer;
 import com.ray.pomin.customer.service.CustomerService;
+import com.ray.pomin.global.auth.model.Claims;
+import com.ray.pomin.global.auth.model.Token;
+import com.ray.pomin.global.auth.token.JwtService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -13,12 +16,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static javax.management.openmbean.SimpleType.STRING;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CustomerController.class)
@@ -29,6 +35,9 @@ class CustomerControllerTest extends ControllerUnit {
 
     @MockBean
     private PasswordEncoder passwordEncoder;
+
+    @MockBean
+    private JwtService jwtService;
 
     @Test
     @DisplayName("사용자 저장에 성공한다")
@@ -45,6 +54,7 @@ class CustomerControllerTest extends ControllerUnit {
         );
         Customer customer = request.toEntity(passwordEncoder);
         given(customerService.save(customer)).willReturn(customer);
+        given(jwtService.createToken(any(Claims.class))).willReturn(new Token("accessToken"));
 
         // when
         ResultActions action = mvc.perform(post("/api/v1/customers")
@@ -54,6 +64,7 @@ class CustomerControllerTest extends ControllerUnit {
         // then
         action
                 .andExpect(status().isOk())
+                .andDo(print())
                 .andDo(
                         document("customer/save",
                                 requestFields(
