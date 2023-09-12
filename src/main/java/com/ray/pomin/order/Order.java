@@ -15,6 +15,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class Order extends BaseTimeEntity {
     @Embedded
     private OrderInfo orderInfo;
 
+    @Getter
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "ORDER_ID")
     private List<OrderItem> orderItems = new ArrayList<>();
@@ -44,6 +46,7 @@ public class Order extends BaseTimeEntity {
     @JoinColumn(name = "PAYMENT_ID")
     private Payment payment;
 
+    @Getter
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
     private OrderStatus orderStatus;
