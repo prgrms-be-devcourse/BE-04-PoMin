@@ -12,14 +12,14 @@ public record JwtProperties(String secretKey, Map<String, TokenInfo> info) {
     }
 
     public String getHeaderName(String tokenName) {
-        return info.get(tokenName).headerName;
+        return info.get(tokenName).header;
     }
 
-    private record TokenInfo(int expiration, String headerName) {
+    private record TokenInfo(int expiration, String header) {
 
-        public TokenInfo(int expiration, String headerName) {
+        public TokenInfo(int expiration, String header) {
             this.expiration = expiration * 1000;
-            this.headerName = headerName;
+            this.header = header;
         }
 
     }
