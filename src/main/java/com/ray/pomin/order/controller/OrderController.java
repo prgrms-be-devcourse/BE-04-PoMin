@@ -23,7 +23,7 @@ public class OrderController {
     @PostMapping("/orders")
     public Order saveOrder(@RequestBody Cart cart) {
         Order order = cart.toOrder();
-        orderService.createOrder(cart);
+        orderService.createOrder(order);
         payOrder(order);
         return order;
     }

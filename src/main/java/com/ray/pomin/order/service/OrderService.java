@@ -1,6 +1,5 @@
 package com.ray.pomin.order.service;
 
-import com.ray.pomin.order.Cart;
 import com.ray.pomin.order.Order;
 import com.ray.pomin.order.repository.OrderRepository;
 import jakarta.transaction.Transactional;
@@ -25,8 +24,7 @@ public class OrderService {
     }
 
     @Transactional
-    public Order createOrder(Cart cart) {
-        Order order = cart.toOrder();
+    public Order createOrder(Order order) {
         order.place();
         orderRepository.save(order);
         return order;
