@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.net.URI;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class PaymentController {
 
   @Value("${toss.api.testSecretApiKey}")
