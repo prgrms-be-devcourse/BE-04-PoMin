@@ -1,9 +1,10 @@
 package com.ray.pomin.global.config;
 
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import com.ray.pomin.global.auth.token.JwtProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationPropertiesScan("com.ray")
+@EnableConfigurationProperties(JwtProperties.class)
 public class WebConfiguration {
 }
