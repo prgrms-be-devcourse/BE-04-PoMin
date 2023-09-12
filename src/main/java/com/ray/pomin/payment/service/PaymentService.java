@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.ray.pomin.payment.domain.PayMethod.*;
 import static com.ray.pomin.payment.domain.PaymentStatus.COMPLETE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Base64.getEncoder;
@@ -39,32 +40,33 @@ public class PaymentService {
 
   @Transactional
   public Long doFinalPaymentRequest(String orderId, String paymentKey, int amount) {
-
     ResponseEntity<Map> responseEntity = sendFinalPaymentRequest(orderId, paymentKey, amount);
 
     if (responseEntity.getStatusCode() != OK) {
       throw new IllegalArgumentException("결제에 실패했습니다.");
     }
+
     return paymentRepository.save(createPayment(responseEntity.getBody())).getId();
   }
 
   private Payment createPayment(Map paidRequestBody) {
-
-    String paymentKey = paidRequestBody.get("paymentKey").toString();
-    String method = paidRequestBody.get("method").toString();
     int amount = Integer.parseInt(paidRequestBody.get("totalAmount").toString());
-    PayType payType;
-
-    if (method.equals("간편결제")) {
-      Map<String, Object> easyPay = (Map<String, Object>) paidRequestBody.get("easyPay");
-      payType = PayType.findByTitle(easyPay.get("provider").toString());
-    } else {
-      Map<String, Object> card = (Map<String, Object>) paidRequestBody.get("card");
-      payType = PayType.findByCode(card.get("issuerCode").toString());
-    }
+    String paymentKey = paidRequestBody.get("paymentKey").toString();
+    PayMethod payMethod = findByTitle(paidRequestBody.get("method").toString());
+    PayType payType = getPayType(paidRequestBody, payMethod);
 
     return new Payment(amount, COMPLETE, new PGInfo(PGType.TOSS, paymentKey),
-            new PayInfo(PayMethod.findByTitle(method), payType));
+            new PayInfo(payMethod, payType));
+  }
+
+  private PayType getPayType(Map paidRequestBody, PayMethod payMethod) {
+    if (payMethod == EASYPAY) {
+      Map<String, Object> easyPay = (Map<String, Object>) paidRequestBody.get("easyPay");
+      return PayType.findByTitle(easyPay.get("provider").toString());
+    } else {
+      Map<String, Object> card = (Map<String, Object>) paidRequestBody.get("card");
+      return PayType.findByCode(card.get("issuerCode").toString());
+    }
   }
 
   private ResponseEntity<Map> sendFinalPaymentRequest(String orderId, String paymentKey, int amount) {
@@ -77,13 +79,14 @@ public class PaymentService {
     HttpHeaders headers = new HttpHeaders();
     headers.set("Authorization", getAuthorizations());
     headers.set("Content-Type", "application/json");
-
     HttpEntity<Object> requestBody = new HttpEntity<>(paymentRequestInfo, headers);
+
     return restTemplate.postForEntity(FINAL_TOSSPAYMENT_URL, requestBody, Map.class);
   }
 
   private String getAuthorizations() {
     byte[] encodedSecretKey = getEncoder().encode((secretKey + ":").getBytes(UTF_8));
+
     return "Basic "+ new String(encodedSecretKey, 0, encodedSecretKey.length);
   }
 

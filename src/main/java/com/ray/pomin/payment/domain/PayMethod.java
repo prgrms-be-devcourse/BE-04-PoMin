@@ -28,7 +28,7 @@ public enum PayMethod {
 
   public static PayMethod findByTitle(String title) {
     return Arrays.stream(PayMethod.values())
-            .filter(PayMethod -> PayMethod.title.equals(title))
+            .filter(payMethod -> payMethod.title.equals(title))
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException("해당 결제 수단은 지원하지 않습니다."));
   }
