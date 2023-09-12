@@ -17,10 +17,10 @@ import static lombok.AccessLevel.*;
 public class PayInfo {
 
   @Enumerated(STRING)
-  private PayMethod method; // 카드, 간편결제
+  private PayMethod method;
 
   @Enumerated(STRING)
-  private PayType type; // 무슨카드, 무슨 간편결제
+  private PayType type;
 
   public PayInfo(PayMethod method, PayType type) {
     validate(!Objects.isNull(method), "결제 수단은 필수 값입니다");

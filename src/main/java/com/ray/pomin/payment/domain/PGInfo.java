@@ -19,9 +19,9 @@ public class PGInfo {
 
   @Enumerated(STRING)
   @Column(name = "PGType")
-  private PGType provider; // pg 사
+  private PGType provider;
 
-  private String payKey; // 거래 key
+  private String payKey;
 
   public PGInfo(PGType provider, String payKey) {
     validate(!isNull(provider), "PG사는 필수 값입니다");
