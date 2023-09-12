@@ -53,14 +53,18 @@ public class Customer {
         validate(!isNull(provider), "로그인 제공자 정보는 필수 값입니다");
     }
 
-    public String getEmail() {
-        return login.getEmail();
-    }
-
     public Customer addLoginProvider(String providerName) {
         Customer customer = new Customer(this.login, this.nickname, this.information, Provider.valueOf(providerName));
         customer.loginProviders.addAll(this.loginProviders);
 
         return customer;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public String getEmail() {
+        return login.getEmail();
     }
 }
