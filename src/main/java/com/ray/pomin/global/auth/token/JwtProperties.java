@@ -11,6 +11,10 @@ public record JwtProperties(String secretKey, Map<String, TokenInfo> info) {
         return info.get(tokenName).expiration;
     }
 
+    public String getHeaderName(String tokenName) {
+        return info.get(tokenName).headerName;
+    }
+
     private record TokenInfo(int expiration, String headerName) {
 
         public TokenInfo(int expiration, String headerName) {
