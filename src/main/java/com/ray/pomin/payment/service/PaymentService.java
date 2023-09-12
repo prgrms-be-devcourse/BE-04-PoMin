@@ -71,18 +71,30 @@ public class PaymentService {
   }
 
   private ResponseEntity<Map> sendFinalPaymentRequest(String orderId, String paymentKey, int amount) {
+    HashMap<String, String> paymentRequestInfo = createPaymentReqeust(orderId, paymentKey, amount);
+
+    RestTemplate restTemplate = new RestTemplate();
+    HttpHeaders headers = createPaymentRequestHeader();
+    HttpEntity<Object> requestBody = new HttpEntity<>(paymentRequestInfo, headers);
+
+    return restTemplate.postForEntity(FINAL_TOSSPAYMENT_URL, requestBody, Map.class);
+  }
+
+  private HttpHeaders createPaymentRequestHeader() {
+    HttpHeaders headers = new HttpHeaders();
+    headers.set("Authorization", getAuthorizations());
+    headers.set("Content-Type", "application/json");
+
+    return headers;
+  }
+
+  private static HashMap<String, String> createPaymentReqeust(String orderId, String paymentKey, int amount) {
     HashMap<String, String> paymentRequestInfo = new HashMap<>();
     paymentRequestInfo.put("paymentKey", paymentKey);
     paymentRequestInfo.put("orderId", orderId);
     paymentRequestInfo.put("amount", String.valueOf(amount));
 
-    RestTemplate restTemplate = new RestTemplate();
-    HttpHeaders headers = new HttpHeaders();
-    headers.set("Authorization", getAuthorizations());
-    headers.set("Content-Type", "application/json");
-    HttpEntity<Object> requestBody = new HttpEntity<>(paymentRequestInfo, headers);
-
-    return restTemplate.postForEntity(FINAL_TOSSPAYMENT_URL, requestBody, Map.class);
+    return paymentRequestInfo;
   }
 
   private String getAuthorizations() {

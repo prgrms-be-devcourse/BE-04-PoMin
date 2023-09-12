@@ -31,7 +31,7 @@ public class PaymentController {
 
   @ResponseBody
   @GetMapping("/tosspayments/success")
-  public ResponseEntity<Void> validPaymentRequest(@RequestParam String orderId,
+  public ResponseEntity<Void> create(@RequestParam String orderId,
                                             @RequestParam String paymentKey,
                                             @RequestParam int amount) {
     Long paymentId = paymentService.doFinalPaymentRequest(orderId, paymentKey, amount);
