@@ -62,11 +62,12 @@ public class PaymentService {
   private PayType getPayType(Map paidRequestBody, PayMethod payMethod) {
     if (payMethod == EASYPAY) {
       Map<String, Object> easyPay = (Map<String, Object>) paidRequestBody.get("easyPay");
+
       return PayType.findByTitle(easyPay.get("provider").toString());
-    } else {
-      Map<String, Object> card = (Map<String, Object>) paidRequestBody.get("card");
-      return PayType.findByCode(card.get("issuerCode").toString());
     }
+      Map<String, Object> card = (Map<String, Object>) paidRequestBody.get("card");
+
+      return PayType.findByCode(card.get("issuerCode").toString());
   }
 
   private ResponseEntity<Map> sendFinalPaymentRequest(String orderId, String paymentKey, int amount) {
