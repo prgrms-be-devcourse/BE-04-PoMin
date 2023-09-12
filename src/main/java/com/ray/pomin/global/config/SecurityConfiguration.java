@@ -2,12 +2,14 @@ package com.ray.pomin.global.config;
 
 import com.ray.pomin.global.auth.OAuthCustomerService;
 import com.ray.pomin.global.auth.OAuthSuccessHandler;
+import com.ray.pomin.global.auth.filter.JwtAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -15,7 +17,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @Import(SecurityBeanConfiguration.class)
 public class SecurityConfiguration {
 
+    private final JwtAuthorizationFilter jwtAuthorizationFilter;
+
     private final OAuthCustomerService oAuthCustomerService;
+
     private final OAuthSuccessHandler oAuthSuccessHandler;
 
     @Bean
@@ -39,6 +44,7 @@ public class SecurityConfiguration {
                                 .successHandler(oAuthSuccessHandler)
                 );
 
+        http.addFilterAfter(jwtAuthorizationFilter, OAuth2LoginAuthenticationFilter.class);
         return http.build();
     }
 }
