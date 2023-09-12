@@ -10,4 +10,4 @@ spring:
   config:
     activate:
       on-profile: dev
-    import: dev/application-db.yml
+    import: dev/application-db.yml, dev/application-jwt.yml
