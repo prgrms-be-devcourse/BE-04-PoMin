@@ -104,4 +104,12 @@ public class PaymentService {
     return "Basic "+ new String(encodedSecretKey, 0, encodedSecretKey.length);
   }
 
+  public void cancel(Long paymentId) {
+
+  }
+
+  public Payment findOne(Long paymentId) {
+    return null;
+  }
+
 }
