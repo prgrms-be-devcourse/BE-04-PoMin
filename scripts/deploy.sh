@@ -25,4 +25,4 @@ fi
 echo "> 배포 - $JAR_PATH"
 chmod +x $JAR_PATH
 
-sudo nohup java -jar $JAR_PATH > /dev/null 2>&1 &
+sudo nohup java -jar $JAR_PATH --spring.profiles.active=prod > /dev/null 2>&1 &
