@@ -54,7 +54,7 @@ public class PaymentController {
     return new ResponseEntity<>(new PaymentFailResponse(message, orderId), HttpStatus.valueOf(code));
   }
 
-  @PatchMapping("/api/v1/payments/{paymentId}")
+  @PatchMapping("/payments/{paymentId}")
   public ResponseEntity<Void> cancel(@PathVariable Long paymentId) {
     // 결제가 묶여 있는 주문의 상태가 결제취소가 가능한 상태인지 확인하는 로직
     paymentService.cancel(paymentId);
@@ -62,7 +62,7 @@ public class PaymentController {
     return ResponseEntity.ok().build();
   }
 
-  @GetMapping("/api/v1/payments/{paymentId}")
+  @GetMapping("/payments/{paymentId}")
   public PaymentResponse find(@PathVariable Long paymentId) {
     Payment payment = paymentService.findOne(paymentId);
 
