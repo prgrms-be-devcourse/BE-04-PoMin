@@ -14,3 +14,9 @@ spring:
   mvc:
     view:
       prefix: classpath:/templates/
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+    import: sub/application-db.yml
