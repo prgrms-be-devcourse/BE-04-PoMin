@@ -1,5 +1,7 @@
 package com.ray.pomin.payment.controller;
 
+import com.ray.pomin.payment.controller.dto.PaymentFailResponse;
+import com.ray.pomin.payment.controller.dto.PaymentResponse;
 import com.ray.pomin.payment.domain.Payment;
 import com.ray.pomin.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -65,5 +67,5 @@ public class PaymentController {
 
     return new PaymentResponse(payment);
   }
-  
+
 }

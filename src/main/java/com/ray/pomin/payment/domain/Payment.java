@@ -51,4 +51,17 @@ public class Payment extends BaseTimeEntity {
   public Long getId() {
     return id;
   }
+
+  public int getAmount() {
+    return amount;
+  }
+
+  public PaymentStatus getStatus() {
+    return status;
+  }
+
+  public PayInfo getPayInfo() {
+    return payInfo;
+  }
+
 }
