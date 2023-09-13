@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_NAME=spring-cicd
+PROJECT_NAME=pomin
 REPOSITORY=/home/ec2-user/code
 PACKAGE=$REPOSITORY/build/libs/
 JAR_NAME=$(ls -tr $PACKAGE | grep 'SNAPSHOT.jar' | tail -n 1)
