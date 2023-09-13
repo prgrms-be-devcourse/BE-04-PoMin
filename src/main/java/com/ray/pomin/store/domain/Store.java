@@ -37,6 +37,9 @@ public class Store extends BaseTimeEntity {
     @Embedded
     private Point addressPoint;
 
+    @Embedded
+    private StoreTime time;
+
     @OneToMany(mappedBy = "store", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
     private List<StoreImage> storeImages = new ArrayList<>();
 
