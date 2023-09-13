@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_NAME=spring-cicd
+PROJECT_NAME=pomin
 REPOSITORY=/home/ec2-user/code
 PACKAGE=$REPOSITORY/build/libs/
 JAR_NAME=$(ls -tr $PACKAGE | grep 'SNAPSHOT.jar' | tail -n 1)
@@ -23,4 +23,6 @@ else
 fi
 
 echo "> 배포 - $JAR_PATH"
-sudo nohup java -jar $JAR_PATH > /dev/null 2>&1 &
+chmod +x $JAR_PATH
+
+sudo nohup java -jar $JAR_PATH --spring.profiles.active=prod > /dev/null 2>&1 &
