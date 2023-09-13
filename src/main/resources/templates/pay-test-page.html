@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>주문 결제하기</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://js.tosspayments.com/v1/payment-widget"></script>
+</head>
+<body>
+<div>
+    <h2>배달 연락처</h2>
+    <input id="telephone"/>
+    <h2>배달 주소</h2>
+    <input id="delivery-address"/>
+</div>
+<div id="payment-method"></div>
+<button id="payment-request-button">결제하기</button>
+<script>
+
+    const paymentWidget = PaymentWidget(
+        "test_ck_mBZ1gQ4YVX7JdQzAJv23l2KPoqNb", PaymentWidget.ANONYMOUS
+    );
+
+    /**
+     * 결제창을 렌더링합니다.
+     * @docs https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods%EC%84%A0%ED%83%9D%EC%9E%90-%EA%B2%B0%EC%A0%9C-%EA%B8%88%EC%95%A1
+     */
+    paymentWidget.renderPaymentMethods("#payment-method", { value: 50000 });
+
+    const paymentRequestButton = document.getElementById(
+        "payment-request-button"
+    );
+    paymentRequestButton.addEventListener("click", () => {
+
+        /** 결제 요청
+         * @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment%EA%B2%B0%EC%A0%9C-%EC%A0%95%EB%B3%B4
+         */
+
+        // ORDER 주문 : 연락처, 배송지를 update 하는 요청 호출
+
+        paymentWidget.requestPayment({ // 인증
+            orderId: generateRandomString(), // 요청을 통해 가져온 orderId
+            orderName: "주문한_상품들_이름",
+            successUrl: window.location.origin + "/tosspayments/success",
+            failUrl: window.location.origin + "/tosspayments/fail",
+        });
+    });
+
+    function generateRandomString() {
+        return window.btoa(Math.random()).slice(0, 20);
+    }
+</script>
+</body>
+</html>
