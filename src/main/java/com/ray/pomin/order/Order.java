@@ -2,6 +2,7 @@ package com.ray.pomin.order;
 
 import com.ray.pomin.common.domain.BaseTimeEntity;
 import com.ray.pomin.payment.domain.Payment;
+import com.ray.pomin.store.domain.Store;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -11,6 +12,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 @Builder
 @Table(name = "ORDERS")
 @AllArgsConstructor
@@ -39,13 +42,14 @@ public class Order extends BaseTimeEntity {
     @Embedded
     private OrderInfo orderInfo;
 
-    @Getter
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "ORDER_ID")
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @Column(name = "STORE_ID")
-    private Long storeId;
+    @ManyToOne
+    @JoinColumn(name = "STORE_ID")
+    private Store store;
+
 
     @Column(name = "CUSTOMER_ID")
     private Long customerId;
@@ -54,7 +58,6 @@ public class Order extends BaseTimeEntity {
     @JoinColumn(name = "PAYMENT_ID")
     private Payment payment;
 
-    @Getter
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
     private OrderStatus orderStatus;
@@ -68,6 +71,10 @@ public class Order extends BaseTimeEntity {
         if (orderItems.isEmpty()) {
             throw new IllegalArgumentException("주문 항목이 비어 있습니다");
         }
+
+        if (store != null && !store.getTime().isOpen()) {
+            throw new IllegalStateException("가게가 현재 열려 있지 않습니다.");
+        }
     }
 
     private void ordered() {
@@ -76,6 +83,10 @@ public class Order extends BaseTimeEntity {
 
     public void paid() {
         this.orderStatus = OrderStatus.PAID;
+    }
+
+    public int getTotalPrice() {
+        return 0;
     }
 
 }
