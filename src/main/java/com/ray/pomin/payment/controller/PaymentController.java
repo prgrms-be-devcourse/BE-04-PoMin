@@ -1,5 +1,7 @@
 package com.ray.pomin.payment.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ray.pomin.payment.controller.dto.PaymentCancelResponse;
 import com.ray.pomin.payment.controller.dto.PaymentFailResponse;
 import com.ray.pomin.payment.controller.dto.PaymentResponse;
 import com.ray.pomin.payment.domain.Payment;
@@ -24,9 +26,6 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class PaymentController {
 
-  @Value("${toss.api.testSecretApiKey}")
-  private String secretKey;
-
   private final PaymentService paymentService;
 
   @GetMapping("/payment")
@@ -39,7 +38,7 @@ public class PaymentController {
   @GetMapping("/payment/success")
   public ResponseEntity<Void> create(@RequestParam String orderId,
                                             @RequestParam String paymentKey,
-                                            @RequestParam int amount) {
+                                            @RequestParam int amount) throws JsonProcessingException {
     Long paymentId = paymentService.doFinalPaymentRequest(orderId, paymentKey, amount);
 
     return ResponseEntity.created(URI.create("/api/v1/payments" + paymentId)).build();
@@ -55,11 +54,12 @@ public class PaymentController {
   }
 
   @PatchMapping("/payments/{paymentId}")
-  public ResponseEntity<Void> cancel(@PathVariable Long paymentId) {
-    // 결제가 묶여 있는 주문의 상태가 결제취소가 가능한 상태인지 확인하는 로직
-    paymentService.cancel(paymentId);
+  public ResponseEntity<PaymentCancelResponse> cancel(@PathVariable Long paymentId) {
+    Payment paymentToCancel = paymentService.findOne(paymentId);
+    PaymentCancelResponse cancelResponse = paymentService.cancel(paymentToCancel);
 
-    return ResponseEntity.ok().build();
+    return ResponseEntity.status(HttpStatus.valueOf(cancelResponse.code()))
+            .body(cancelResponse);
   }
 
   @GetMapping("/payments/{paymentId}")
