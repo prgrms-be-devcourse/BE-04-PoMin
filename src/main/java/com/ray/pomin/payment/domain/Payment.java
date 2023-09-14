@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import static com.ray.pomin.global.util.Validator.validate;
+import static com.ray.pomin.payment.domain.PaymentStatus.*;
 import static jakarta.persistence.EnumType.STRING;
 import static java.util.Objects.isNull;
 import static lombok.AccessLevel.PROTECTED;
@@ -62,6 +63,15 @@ public class Payment extends BaseTimeEntity {
 
   public PayInfo getPayInfo() {
     return payInfo;
+  }
+
+  public PGInfo getPgInfo() {
+    return pgInfo;
+  }
+
+  public Payment cancel() {
+    status = CANCELLED;
+    return this;
   }
 
 }
