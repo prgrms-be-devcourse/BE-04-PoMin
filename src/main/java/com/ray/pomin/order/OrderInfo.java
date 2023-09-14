@@ -11,6 +11,8 @@ public class OrderInfo {
 
     private String registrationNumber;
 
+    private String request;
+
     public OrderInfo() {
         this.orderNumber = OrderNumberGenerator.generateOrderNumber();
     }
