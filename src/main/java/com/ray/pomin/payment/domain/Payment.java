@@ -70,7 +70,7 @@ public class Payment extends BaseTimeEntity {
   }
 
   public Payment cancel() {
-    status = CANCELLED;
+    status = CANCELED;
     return this;
   }
 
