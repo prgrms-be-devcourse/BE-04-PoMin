@@ -5,7 +5,7 @@ import com.ray.pomin.order.OrderInfo;
 import com.ray.pomin.payment.domain.Payment;
 import com.ray.pomin.store.domain.Store;
 
-public record OrderResponseDto(
+public record OrderResponse(
         Long id,
         Store store,
         OrderInfo orderInfo,
@@ -13,7 +13,7 @@ public record OrderResponseDto(
         Payment payment
 ) {
 
-    public OrderResponseDto(Order order) {
+    public OrderResponse(Order order) {
         this(
                 order.getId(),
                 order.getStore(),
