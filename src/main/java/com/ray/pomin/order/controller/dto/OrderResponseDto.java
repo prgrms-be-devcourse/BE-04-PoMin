@@ -1,26 +1,26 @@
 package com.ray.pomin.order.controller.dto;
 
-import com.ray.pomin.customer.domain.PhoneNumber;
-import com.ray.pomin.payment.domain.PGType;
-import com.ray.pomin.payment.domain.PaymentStatus;
-
-import java.time.LocalDateTime;
+import com.ray.pomin.order.Order;
+import com.ray.pomin.order.OrderInfo;
+import com.ray.pomin.payment.domain.Payment;
+import com.ray.pomin.store.domain.Store;
 
 public record OrderResponseDto(
         Long id,
-        Long storeId,
-        String orderNumber,
-        String requestedDetails,
+        Store store,
+        OrderInfo orderInfo,
         int totalPrice,
-        PhoneNumber customerPhoneNumber,
-        LocalDateTime reservationTime,
-        PaymentResponseDto payment
+        Payment payment
 ) {
-    public record PaymentResponseDto(
-            Long id,
-            int amount,
-            PaymentStatus status,
-            PGType provider
-    ) {}
+
+    public OrderResponseDto(Order order) {
+        this(
+                order.getId(),
+                order.getStore(),
+                order.getOrderInfo(),
+                order.getTotalPrice(),
+                order.getPayment()
+        );
+    }
 
 }
