@@ -17,4 +17,9 @@ public class StoreService {
         storeRepository.save(store);
     }
 
+    public Store getOne(Long storeId) {
+        return storeRepository.findById(storeId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 가게입니다"));
+    }
+
 }
