@@ -1,10 +1,11 @@
 package com.ray.pomin.order;
 
-import com.ray.pomin.common.domain.BaseTimeEntity;
 import com.ray.pomin.common.util.OrderNumberGenerator;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
 @Embeddable
+@Getter
 public class OrderInfo {
 
     private String orderNumber;
