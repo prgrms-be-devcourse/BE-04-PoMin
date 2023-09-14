@@ -38,7 +38,8 @@ class StoreTimeTest {
                 Arguments.arguments(false, null, LocalTime.of(22, 0)),
                 Arguments.arguments(false, LocalTime.of(12, 0), null),
                 Arguments.arguments(true, null, LocalTime.of(22, 0)),
-                Arguments.arguments(true, LocalTime.of(12, 0), null)
+                Arguments.arguments(true, LocalTime.of(12, 0), null),
+                Arguments.arguments(true, LocalTime.of(22, 0), LocalTime.of(12, 0))
         );
     }
 

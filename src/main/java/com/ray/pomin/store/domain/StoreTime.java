@@ -26,6 +26,7 @@ public class StoreTime {
     public StoreTime(boolean isOpen, LocalTime open, LocalTime close) {
         validate(!isNull(open), "오픈 시간을 정해주세요");
         validate(!isNull(close), "폐점 시간을 정해주세요");
+        validate(close.isAfter(open), "오픈 시간이 앞서야 합니다");
 
         this.isOpen = isOpen;
         this.open = open;
