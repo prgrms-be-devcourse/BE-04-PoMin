@@ -1,7 +1,6 @@
 package com.ray.pomin.payment.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.ray.pomin.payment.controller.dto.PaymentCancelResponse;
 import com.ray.pomin.payment.controller.dto.PaymentFailResponse;
 import com.ray.pomin.payment.controller.dto.PaymentResponse;
 import com.ray.pomin.payment.domain.Payment;
@@ -52,12 +51,11 @@ public class PaymentController {
   }
 
   @PatchMapping("/payments/{paymentId}")
-  public ResponseEntity<PaymentCancelResponse> cancel(@PathVariable Long paymentId) {
+  public ResponseEntity<Void> cancel(@PathVariable Long paymentId) {
     Payment paymentToCancel = paymentService.findOne(paymentId);
-    PaymentCancelResponse cancelResponse = paymentService.cancel(paymentToCancel);
+    paymentService.cancel(paymentToCancel);
 
-    return ResponseEntity.status(HttpStatus.valueOf(cancelResponse.code()))
-            .body(cancelResponse);
+    return ResponseEntity.noContent().build();
   }
 
   @GetMapping("/payments/{paymentId}")

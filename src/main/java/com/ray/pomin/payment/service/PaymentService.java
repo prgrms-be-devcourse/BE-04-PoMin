@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ray.pomin.payment.controller.dto.PaymentCancelRequest;
-import com.ray.pomin.payment.controller.dto.PaymentCancelResponse;
 import com.ray.pomin.payment.domain.PGInfo;
 import com.ray.pomin.payment.domain.PGType;
 import com.ray.pomin.payment.domain.PayInfo;
@@ -17,12 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.MessageFormat;
@@ -35,7 +32,6 @@ import static com.ray.pomin.payment.domain.PaymentStatus.COMPLETE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Base64.getEncoder;
 import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.HttpStatus.OK;
 
 @Slf4j
 @Service
@@ -53,18 +49,14 @@ public class PaymentService {
   public Long doFinalPaymentRequest(String orderId, String paymentKey, int amount) throws JsonProcessingException {
     ResponseEntity<String> responseEntity = sendFinalPaymentRequest(orderId, paymentKey, amount);
 
-    if (responseEntity.getStatusCode() != OK) {
-      throw new IllegalArgumentException("결제에 실패했습니다.");
-    }
-
     return paymentRepository.save(createPayment(responseEntity.getBody())).getId();
   }
 
   private ResponseEntity<String> sendFinalPaymentRequest(String orderId, String paymentKey, int amount) {
     RestTemplate restTemplate = new RestTemplate();
-    Map<String, String> paymentRequestInfo = createPaymentRequest(orderId, paymentKey, amount);
+    Map<String, String> paymentRequestBody = createPaymentRequest(orderId, paymentKey, amount);
     HttpHeaders headers = createRequestHeader();
-    HttpEntity<Object> requestBody = new HttpEntity<>(paymentRequestInfo, headers);
+    HttpEntity<Object> requestBody = new HttpEntity<>(paymentRequestBody, headers);
 
     final String url = "https://api.tosspayments.com/v1/payments/confirm";
 
@@ -109,17 +101,10 @@ public class PaymentService {
   }
 
   @Transactional
-  public PaymentCancelResponse cancel(Payment payment) {
-    try {
+  public void cancel(Payment payment) {
       sendPaymentCancelRequest(payment);
       Payment canceledPayment = payment.cancel();
       paymentRepository.save(canceledPayment);
-
-      return new PaymentCancelResponse(HttpStatus.NO_CONTENT.value(), "SUCCESS_CANCEL_PAYMENT");
-
-    } catch (HttpClientErrorException exception) {
-        return new PaymentCancelResponse(exception.getStatusCode().value(), exception.getMessage());
-    }
   }
 
   private void sendPaymentCancelRequest(Payment payment) {
