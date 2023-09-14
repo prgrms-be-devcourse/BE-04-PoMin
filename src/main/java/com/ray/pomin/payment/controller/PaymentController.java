@@ -8,7 +8,6 @@ import com.ray.pomin.payment.domain.Payment;
 import com.ray.pomin.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -49,7 +48,6 @@ public class PaymentController {
   public ResponseEntity<PaymentFailResponse> fail(@RequestParam String code,
                                                   @RequestParam String message,
                                                   @RequestParam String orderId) {
-
     return new ResponseEntity<>(new PaymentFailResponse(message, orderId), HttpStatus.valueOf(code));
   }
 

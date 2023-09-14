@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import static com.ray.pomin.payment.domain.PayMethod.EASYPAY;
@@ -61,21 +62,19 @@ public class PaymentService {
 
   private ResponseEntity<String> sendFinalPaymentRequest(String orderId, String paymentKey, int amount) {
     RestTemplate restTemplate = new RestTemplate();
-    HashMap<String, String> paymentRequestInfo = createPaymentRequest(orderId, paymentKey, amount);
+    Map<String, String> paymentRequestInfo = createPaymentRequest(orderId, paymentKey, amount);
     HttpHeaders headers = createRequestHeader();
     HttpEntity<Object> requestBody = new HttpEntity<>(paymentRequestInfo, headers);
 
     final String url = "https://api.tosspayments.com/v1/payments/confirm";
+
     return restTemplate.postForEntity(url, requestBody, String.class);
   }
 
-  private HashMap<String, String> createPaymentRequest(String orderId, String paymentKey, int amount) {
-    HashMap<String, String> paymentRequestInfo = new HashMap<>();
-    paymentRequestInfo.put("paymentKey", paymentKey);
-    paymentRequestInfo.put("orderId", orderId);
-    paymentRequestInfo.put("amount", String.valueOf(amount));
-
-    return paymentRequestInfo;
+  private Map<String, String> createPaymentRequest(String orderId, String paymentKey, int amount) {
+    return Map.of("paymentKey", paymentKey,
+                  "orderId", orderId,
+                  "amount", String.valueOf(amount));
   }
 
   private Payment createPayment(String paidRequestBody) throws JsonProcessingException {
@@ -98,7 +97,7 @@ public class PaymentService {
   private HttpHeaders createRequestHeader() {
     HttpHeaders headers = new HttpHeaders();
     headers.set("Authorization", getAuthorizations());
-    headers.set("Content-Type", "application/json");
+    headers.setContentType(MediaType.APPLICATION_JSON);
 
     return headers;
   }
@@ -117,8 +116,8 @@ public class PaymentService {
       paymentRepository.save(canceledPayment);
 
       return new PaymentCancelResponse(HttpStatus.NO_CONTENT.value(), "SUCCESS_CANCEL_PAYMENT");
-    } catch (HttpClientErrorException exception) {
 
+    } catch (HttpClientErrorException exception) {
         return new PaymentCancelResponse(exception.getStatusCode().value(), exception.getMessage());
     }
   }
