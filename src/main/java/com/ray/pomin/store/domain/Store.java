@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class Store extends BaseTimeEntity {
     @Embedded
     private Point addressPoint;
 
+    @Getter
     @Embedded
     private StoreTime time;
 
