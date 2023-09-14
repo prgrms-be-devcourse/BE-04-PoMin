@@ -22,7 +22,7 @@ public class StoreImage {
     private String image;
 
     @ManyToOne
-    @JoinColumn(name = "store_id")
+    @JoinColumn(name = "STORE_ID")
     private Store store;
 
     public StoreImage(String image, Store store) {
