@@ -26,4 +26,14 @@ public class Menu extends BaseTimeEntity {
 
     private boolean verifyAge;
 
+    private Long storeId;
+
+    public MenuInfo getMenuInfo() {
+        return menuInfo;
+    }
+
+    public boolean isVerifyAge() {
+        return verifyAge;
+    }
+
 }

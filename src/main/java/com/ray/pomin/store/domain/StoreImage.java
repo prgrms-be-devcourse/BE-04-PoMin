@@ -33,4 +33,8 @@ public class StoreImage {
         this.store = store;
     }
 
+    public String getImage() {
+        return image;
+    }
+
 }
