@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
@@ -37,6 +38,7 @@ public class Payment extends BaseTimeEntity {
   @Embedded
   private PayInfo payInfo;
 
+  @Builder
   public Payment(int amount, PaymentStatus status, PGInfo pgInfo, PayInfo payInfo) {
     validate(amount > 0, "결제금액은 0 보다 커야합니다");
     validate(!isNull(status), "결제상태는 필수 값입니다");
@@ -70,8 +72,12 @@ public class Payment extends BaseTimeEntity {
   }
 
   public Payment cancel() {
-    status = CANCELED;
-    return this;
+    return Payment.builder()
+                    .amount(amount)
+                    .status(CANCELED)
+                    .pgInfo(new PGInfo(pgInfo.getProvider(), pgInfo.getPayKey()))
+                    .payInfo(new PayInfo(payInfo.getMethod(), payInfo.getType()))
+                    .build();
   }
 
 }
