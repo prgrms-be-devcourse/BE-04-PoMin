@@ -17,10 +17,10 @@ public class OrderService {
     }
 
     @Transactional
-    public void payOrder(Long orderId) {
+    public Order payOrder(Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 주문이 없습니다."));
-        order.paid();
+        return order.paid();
     }
 
     @Transactional

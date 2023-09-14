@@ -42,6 +42,7 @@ public class Order extends BaseTimeEntity {
     @Embedded
     private OrderInfo orderInfo;
 
+    @Builder.Default
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "ORDER_ID")
     private List<OrderItem> orderItems = new ArrayList<>();
@@ -77,12 +78,28 @@ public class Order extends BaseTimeEntity {
         }
     }
 
-    private void ordered() {
-        this.orderStatus = OrderStatus.CREATED;
+    public Order ordered() {
+        return Order.builder()
+                .id(this.id)
+                .orderInfo(this.orderInfo)
+                .orderItems(this.orderItems)
+                .store(this.store)
+                .customerId(this.customerId)
+                .payment(this.payment)
+                .orderStatus(OrderStatus.CREATED)
+                .build();
     }
 
-    public void paid() {
-        this.orderStatus = OrderStatus.PAID;
+    public Order paid() {
+        return Order.builder()
+                .id(this.id)
+                .orderInfo(this.orderInfo)
+                .orderItems(this.orderItems)
+                .store(this.store)
+                .customerId(this.customerId)
+                .payment(this.payment)
+                .orderStatus(OrderStatus.PAID)
+                .build();
     }
 
     public int getTotalPrice() {

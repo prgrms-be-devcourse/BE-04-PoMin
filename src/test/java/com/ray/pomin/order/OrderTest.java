@@ -18,9 +18,9 @@ public class OrderTest {
 
     @Test
     public void testPaidOrder() {
-        order.paid();
+        Order paidOrder = order.paid();
 
-        assertEquals(OrderStatus.PAID, order.getOrderStatus());
+        assertEquals(OrderStatus.PAID, paidOrder.getOrderStatus());
     }
 
     @Test
