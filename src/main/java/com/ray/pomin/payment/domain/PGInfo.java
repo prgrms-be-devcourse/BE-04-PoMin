@@ -18,7 +18,7 @@ import static lombok.AccessLevel.*;
 public class PGInfo {
 
   @Enumerated(STRING)
-  @Column(name = "PGType")
+  @Column(name = "PG_TYPE")
   private PGType provider;
 
   private String payKey;
@@ -29,6 +29,14 @@ public class PGInfo {
 
     this.provider = provider;
     this.payKey = payKey;
+  }
+
+  public PGType getProvider() {
+    return provider;
+  }
+
+  public String getPayKey() {
+    return payKey;
   }
 
 }

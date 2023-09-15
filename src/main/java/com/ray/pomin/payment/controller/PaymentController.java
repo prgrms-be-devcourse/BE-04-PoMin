@@ -1,12 +1,12 @@
 package com.ray.pomin.payment.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ray.pomin.payment.controller.dto.PaymentFailResponse;
 import com.ray.pomin.payment.controller.dto.PaymentResponse;
 import com.ray.pomin.payment.domain.Payment;
 import com.ray.pomin.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,9 +24,6 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class PaymentController {
 
-  @Value("${toss.api.testSecretApiKey}")
-  private String secretKey;
-
   private final PaymentService paymentService;
 
   @GetMapping("/payment")
@@ -39,7 +36,7 @@ public class PaymentController {
   @GetMapping("/payment/success")
   public ResponseEntity<Void> create(@RequestParam String orderId,
                                             @RequestParam String paymentKey,
-                                            @RequestParam int amount) {
+                                            @RequestParam int amount) throws JsonProcessingException {
     Long paymentId = paymentService.doFinalPaymentRequest(orderId, paymentKey, amount);
 
     return ResponseEntity.created(URI.create("/api/v1/payments" + paymentId)).build();
@@ -50,16 +47,15 @@ public class PaymentController {
   public ResponseEntity<PaymentFailResponse> fail(@RequestParam String code,
                                                   @RequestParam String message,
                                                   @RequestParam String orderId) {
-
     return new ResponseEntity<>(new PaymentFailResponse(message, orderId), HttpStatus.valueOf(code));
   }
 
   @PatchMapping("/payments/{paymentId}")
   public ResponseEntity<Void> cancel(@PathVariable Long paymentId) {
-    // 결제가 묶여 있는 주문의 상태가 결제취소가 가능한 상태인지 확인하는 로직
-    paymentService.cancel(paymentId);
+    Payment paymentToCancel = paymentService.findOne(paymentId);
+    paymentService.cancel(paymentToCancel);
 
-    return ResponseEntity.ok().build();
+    return ResponseEntity.noContent().build();
   }
 
   @GetMapping("/payments/{paymentId}")
