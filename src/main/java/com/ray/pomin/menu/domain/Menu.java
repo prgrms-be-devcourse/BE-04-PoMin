@@ -42,4 +42,8 @@ public class Menu extends BaseTimeEntity {
         return verifyAge;
     }
 
+    public String getPrice() {
+        return menuInfo.getPrimaryDetails().getPrice();
+    }
+
 }
