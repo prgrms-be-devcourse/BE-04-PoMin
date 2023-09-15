@@ -58,7 +58,7 @@ public class PaymentService {
     HttpHeaders headers = createRequestHeader();
     HttpEntity<Object> requestBody = new HttpEntity<>(paymentRequestBody, headers);
 
-    final String url = "https://api.tosspayments.com/v1/payments/confirm";
+    String url = "https://api.tosspayments.com/v1/payments/confirm";
 
     return restTemplate.postForEntity(url, requestBody, String.class);
   }
@@ -69,29 +69,30 @@ public class PaymentService {
                   "amount", String.valueOf(amount));
   }
 
-  private Payment createPayment(String paidRequestBody) throws JsonProcessingException {
-    JsonNode jsonNode = objectMapper.readTree(paidRequestBody);
-    PayMethod payMethod = findByTitle(jsonNode.get("method").textValue());
-    String paymentKey = jsonNode.get("paymentKey").textValue();
-    int amount = jsonNode.get("totalAmount").intValue();
-    PayType payType;
-
-    if (payMethod == EASYPAY) {
-       payType = PayType.findByTitle(jsonNode.get("easyPay").get("provider").textValue());
-    } else {
-       payType = PayType.findByCode(jsonNode.get("card").get("issuerCode").textValue());
-    }
-
-    return new Payment(amount, COMPLETE, new PGInfo(PGType.TOSS, paymentKey),
-            new PayInfo(payMethod, payType));
-  }
-
   private HttpHeaders createRequestHeader() {
     HttpHeaders headers = new HttpHeaders();
     headers.set("Authorization", getAuthorizations());
     headers.setContentType(MediaType.APPLICATION_JSON);
 
     return headers;
+  }
+
+  private Payment createPayment(String responseBody) throws JsonProcessingException {
+    JsonNode jsonNode = objectMapper.readTree(responseBody);
+    String paymentKey = jsonNode.get("paymentKey").textValue();
+    int amount = jsonNode.get("totalAmount").intValue();
+    PayMethod payMethod = findByTitle(jsonNode.get("method").textValue());
+    PayType payType = getPayType(jsonNode, payMethod);
+
+    return new Payment(amount, COMPLETE, new PGInfo(PGType.TOSS, paymentKey),
+            new PayInfo(payMethod, payType));
+  }
+
+  private static PayType getPayType(JsonNode jsonNode, PayMethod payMethod) {
+    if (payMethod == EASYPAY) {
+       return PayType.findByTitle(jsonNode.get("easyPay").get("provider").textValue());
+    }
+    return PayType.findByCode(jsonNode.get("card").get("issuerCode").textValue());
   }
 
   private String getAuthorizations() {
