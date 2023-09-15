@@ -36,6 +36,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -150,5 +152,41 @@ class StoreControllerTest extends ControllerUnit {
                         )
                 );
     }
+
+    @Test
+    void test() throws Exception {
+        // given
+        double latitude = 37.6531852873842;
+        double longitude = 127.04778768624769;
+        Address address = new Address("강남구", "역삼동");
+        StoreTime time = new StoreTime(false, LocalTime.of(12, 0), LocalTime.of(22, 0));
+        List<String> images = List.of("image1");
+        given(storeService.findAll(latitude, longitude)).willReturn(List.of(
+                new Store("store1", "010-1111-2222", address, new Point(37.6564929887299161, 127.06442614207607), time, images),
+                new Store("store2", "010-1111-2222", address, new Point(37.654353781192924, 127.0542251979854), time, images)
+        ));
+
+        // when
+        ResultActions action = mvc.perform(get("/stores")
+                .param("latitude", String.valueOf(latitude))
+                .param("longitude", String.valueOf(longitude)));
+
+        // then
+        action.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(
+                        document("store/getAll",
+                                queryParameters(
+                                        parameterWithName("latitude").description("사용자 위치 위도"),
+                                        parameterWithName("longitude").description("사용자 위치 경도")
+                                ),
+                                responseFields(
+                                        fieldWithPath("[].name").type(STRING).description("가게 이름"),
+                                        fieldWithPath("[].imageUrl").type(ARRAY).description("가게 사진 링크")
+                                )
+                        )
+                );
+    }
+
 
 }
