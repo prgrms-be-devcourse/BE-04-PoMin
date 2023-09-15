@@ -1,6 +1,7 @@
 package com.ray.pomin.order;
 
 import com.ray.pomin.common.domain.BaseTimeEntity;
+import com.ray.pomin.menu.domain.Menu;
 import com.ray.pomin.payment.domain.Payment;
 import com.ray.pomin.store.domain.Store;
 import jakarta.persistence.CascadeType;
@@ -103,7 +104,17 @@ public class Order extends BaseTimeEntity {
     }
 
     public int getTotalPrice() {
-        return 0;
+        int totalPrice = 0;
+
+        for (OrderItem orderItem : orderItems) {
+            Menu menu = orderItem.getMenu();
+            int count = orderItem.getCount();
+            int itemPrice = Integer.parseInt(menu.getPrice());
+            
+            totalPrice += itemPrice * count;
+        }
+
+        return totalPrice;
     }
 
 }
