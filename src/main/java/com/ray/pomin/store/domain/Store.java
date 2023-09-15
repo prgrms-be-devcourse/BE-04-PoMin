@@ -73,4 +73,22 @@ public class Store extends BaseTimeEntity {
                 .toList();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String fullAddress() {
+        return address.getPrimaryAddress() + address.getAdditionalAddress();
+    }
+
+    public List<String> getStoreImages() {
+        return storeImages.stream()
+                .map(StoreImage::getImage)
+                .toList();
+    }
+
 }
