@@ -1,26 +1,32 @@
 package com.ray.pomin.payment.domain;
 
-import com.ray.pomin.common.domain.BaseTimeEntity;
+import com.ray.pomin.payment.controller.dto.PaymentInfo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 import static com.ray.pomin.global.util.Validator.validate;
-import static com.ray.pomin.payment.domain.PaymentStatus.*;
 import static jakarta.persistence.EnumType.STRING;
 import static java.util.Objects.isNull;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
-@EqualsAndHashCode(of = "id", callSuper = false)
+@Getter
+@Builder
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 @NoArgsConstructor(access = PROTECTED)
-public class Payment extends BaseTimeEntity {
+public class Payment {
 
   @Id
   @GeneratedValue
@@ -38,45 +44,30 @@ public class Payment extends BaseTimeEntity {
   @Embedded
   private PayInfo payInfo;
 
-  @Builder
-  public Payment(int amount, PaymentStatus status, PGInfo pgInfo, PayInfo payInfo) {
+  private LocalDateTime approvedAt;
+
+  public Payment(int amount, PaymentStatus status, PGInfo pgInfo, PayInfo payInfo, LocalDateTime approvedAt) {
     validate(amount > 0, "결제금액은 0 보다 커야합니다");
     validate(!isNull(status), "결제상태는 필수 값입니다");
     validate(!isNull(pgInfo), "PG사 정보는 필수 값입니다");
     validate(!isNull(payInfo), "결제 수단 정보는 필수 값입니다");
+    validate(!isNull(approvedAt), "결제 일시는 필수 값입니다");
 
     this.amount = amount;
     this.status = status;
     this.pgInfo = pgInfo;
     this.payInfo = payInfo;
+    this.approvedAt = approvedAt;
   }
 
-  public Long getId() {
-    return id;
-  }
-
-  public int getAmount() {
-    return amount;
-  }
-
-  public PaymentStatus getStatus() {
-    return status;
-  }
-
-  public PayInfo getPayInfo() {
-    return payInfo;
-  }
-
-  public PGInfo getPgInfo() {
-    return pgInfo;
-  }
-
-  public Payment cancel() {
+  public Payment cancel(PaymentInfo Paymentinfo) {
     return Payment.builder()
+                    .id(id)
                     .amount(amount)
-                    .status(CANCELED)
+                    .status(Paymentinfo.status())
                     .pgInfo(new PGInfo(pgInfo.getProvider(), pgInfo.getPayKey()))
                     .payInfo(new PayInfo(payInfo.getMethod(), payInfo.getType()))
+                    .approvedAt(Paymentinfo.approvedAt())
                     .build();
   }
 
