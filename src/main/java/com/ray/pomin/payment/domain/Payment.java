@@ -1,6 +1,5 @@
 package com.ray.pomin.payment.domain;
 
-import com.ray.pomin.payment.controller.dto.PaymentInfo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -16,6 +15,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 import static com.ray.pomin.global.util.Validator.validate;
+import static com.ray.pomin.payment.domain.PaymentStatus.CANCELED;
 import static jakarta.persistence.EnumType.STRING;
 import static java.util.Objects.isNull;
 import static lombok.AccessLevel.PROTECTED;
@@ -60,14 +60,14 @@ public class Payment {
     this.approvedAt = approvedAt;
   }
 
-  public Payment cancel(PaymentInfo paymentInfo) {
+  public Payment cancel(LocalDateTime canceledAt) {
     return Payment.builder()
                     .id(id)
                     .amount(amount)
-                    .status(paymentInfo.status())
+                    .status(CANCELED)
                     .pgInfo(new PGInfo(pgInfo.getProvider(), pgInfo.getPayKey()))
                     .payInfo(new PayInfo(payInfo.getMethod(), payInfo.getType()))
-                    .approvedAt(paymentInfo.approvedAt())
+                    .approvedAt(canceledAt)
                     .build();
   }
 
