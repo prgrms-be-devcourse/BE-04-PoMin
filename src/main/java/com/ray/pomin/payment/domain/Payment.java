@@ -60,14 +60,14 @@ public class Payment {
     this.approvedAt = approvedAt;
   }
 
-  public Payment cancel(PaymentInfo Paymentinfo) {
+  public Payment cancel(PaymentInfo paymentInfo) {
     return Payment.builder()
                     .id(id)
                     .amount(amount)
-                    .status(Paymentinfo.status())
+                    .status(paymentInfo.status())
                     .pgInfo(new PGInfo(pgInfo.getProvider(), pgInfo.getPayKey()))
                     .payInfo(new PayInfo(payInfo.getMethod(), payInfo.getType()))
-                    .approvedAt(Paymentinfo.approvedAt())
+                    .approvedAt(paymentInfo.approvedAt())
                     .build();
   }
 
