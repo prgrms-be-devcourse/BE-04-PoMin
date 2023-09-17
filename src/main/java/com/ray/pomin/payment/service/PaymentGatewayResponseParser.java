@@ -8,6 +8,7 @@ import com.ray.pomin.payment.domain.PayMethod;
 import com.ray.pomin.payment.domain.PayType;
 import com.ray.pomin.payment.domain.PaymentStatus;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -16,22 +17,29 @@ import java.time.LocalDateTime;
 import static com.ray.pomin.payment.domain.PayMethod.EASYPAY;
 import static com.ray.pomin.payment.domain.PayMethod.findByTitle;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class PaymentGatewayResponseParser {
 
     private final ObjectMapper objectMapper;
 
-    public PaymentInfo getPaymentInfoFrom(ResponseEntity<String> response) throws JsonProcessingException {
-        JsonNode jsonNode = objectMapper.readTree(response.getBody());
-        int amount = extractIntValue(jsonNode,"totalAmount");
-        PaymentStatus status = extractValue(jsonNode,"status").equals("DONE") ? PaymentStatus.COMPLETE : PaymentStatus.CANCELED;
-        String paymentKey = extractValue(jsonNode, "paymentKey");
-        PayMethod payMethod = findByTitle(extractValue(jsonNode,"method"));
-        PayType payType = getPayType(jsonNode, payMethod);
-        LocalDateTime approvedAt = getTime(jsonNode);
+    public PaymentInfo getPaymentInfoFrom(ResponseEntity<String> response) {
+        try {
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+            int amount = extractIntValue(jsonNode,"totalAmount");
+            PaymentStatus status = extractValue(jsonNode,"status").equals("DONE") ? PaymentStatus.COMPLETE : PaymentStatus.CANCELED;
+            String paymentKey = extractValue(jsonNode, "paymentKey");
+            PayMethod payMethod = findByTitle(extractValue(jsonNode,"method"));
+            PayType payType = getPayType(jsonNode, payMethod);
+            LocalDateTime approvedAt = getTime(jsonNode);
 
-        return new PaymentInfo(amount, status, paymentKey, payMethod, payType, approvedAt);
+            return new PaymentInfo(amount, status, paymentKey, payMethod, payType, approvedAt);
+
+        } catch (JsonProcessingException exception) {
+            log.debug("JsonProcessing Exception = {}", exception.getMessage());
+            throw new IllegalArgumentException("요청 처리에 실패했습니다.");
+        }
     }
 
     private int extractIntValue(JsonNode jsonNode, String valueName) {

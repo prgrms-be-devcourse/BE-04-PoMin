@@ -1,6 +1,5 @@
 package com.ray.pomin.payment.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ray.pomin.payment.controller.dto.PaymentCancelRequest;
 import com.ray.pomin.payment.controller.dto.PaymentInfo;
 import com.ray.pomin.payment.domain.Payment;
@@ -31,7 +30,7 @@ public class PaymentGatewayHandler {
 
     private final PaymentGatewayResponseParser parser;
 
-    PaymentInfo makePaymentRequest(String orderId, String paymentKey, int amount) throws JsonProcessingException {
+    PaymentInfo makePaymentRequest(String orderId, String paymentKey, int amount) {
         Map<String, String> paymentRequestBody = createPaymentRequest(orderId, paymentKey, amount);
         HttpHeaders headers = createRequestHeader();
         HttpEntity<Object> requestBody = new HttpEntity<>(paymentRequestBody, headers);
@@ -62,7 +61,7 @@ public class PaymentGatewayHandler {
         return "Basic "+ new String(encodedSecretKey, 0, encodedSecretKey.length);
     }
 
-    public PaymentInfo cancelPaymentRequest(Payment payment) throws JsonProcessingException {
+    public PaymentInfo cancelPaymentRequest(Payment payment) {
         String url = format("https://api.tosspayments.com/v1/payments/{0}/cancel", payment.getPgInfo().getPayKey());
         HttpEntity<PaymentCancelRequest> requestBody = new HttpEntity<>(new PaymentCancelRequest("결제취소사유"), createRequestHeader());
 
