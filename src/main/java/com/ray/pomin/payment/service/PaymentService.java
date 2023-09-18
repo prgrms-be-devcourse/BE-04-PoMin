@@ -1,6 +1,5 @@
 package com.ray.pomin.payment.service;
 
-import com.ray.pomin.payment.controller.dto.PaymentInfo;
 import com.ray.pomin.payment.domain.Payment;
 import com.ray.pomin.payment.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,16 +18,15 @@ public class PaymentService {
   private final PaymentGatewayHandler paymentGatewayHandler;
 
   public Long create(String orderId, String paymentKey, int amount) {
-    PaymentInfo paymentInfo = paymentGatewayHandler.makePaymentRequest(orderId, paymentKey, amount);
-    Payment payment = paymentInfo.toEntity();
+    Payment completedPayment = paymentGatewayHandler.makePaymentRequest(orderId, paymentKey, amount);
 
-    return paymentRepository.save(payment).getId();
+    return paymentRepository.save(completedPayment).getId();
   }
 
   public void cancel(Payment payment) {
-    PaymentInfo paymentInfo = paymentGatewayHandler.cancelPaymentRequest(payment);
-    Payment paymentCanceled = payment.cancel(paymentInfo.approvedAt());
-    paymentRepository.save(paymentCanceled);
+    Payment canceledPayment = paymentGatewayHandler.cancelPaymentRequest(payment);
+
+    paymentRepository.save(canceledPayment);
   }
 
   @Transactional(readOnly = true)
