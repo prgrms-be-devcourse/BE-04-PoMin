@@ -2,6 +2,7 @@ package com.ray.pomin.order.service;
 
 import com.ray.pomin.order.Order;
 import com.ray.pomin.order.repository.OrderRepository;
+import com.ray.pomin.payment.domain.Payment;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +18,10 @@ public class OrderService {
     }
 
     @Transactional
-    public Order payOrder(Long orderId) {
+    public Order payOrder(Long orderId, Payment payment) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 주문이 없습니다."));
-        return order.paid();
+        return order.paid(payment);
     }
 
     @Transactional
