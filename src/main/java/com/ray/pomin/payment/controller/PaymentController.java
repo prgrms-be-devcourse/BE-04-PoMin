@@ -37,7 +37,7 @@ public class PaymentController {
   public ResponseEntity<Void> create(@RequestParam String orderId,
                                             @RequestParam String paymentKey,
                                             @RequestParam int amount) throws JsonProcessingException {
-    Long paymentId = paymentService.doFinalPaymentRequest(orderId, paymentKey, amount);
+    Long paymentId = paymentService.create(orderId, paymentKey, amount);
 
     return ResponseEntity.created(URI.create("/api/v1/payments" + paymentId)).build();
   }
@@ -51,7 +51,7 @@ public class PaymentController {
   }
 
   @PatchMapping("/payments/{paymentId}")
-  public ResponseEntity<Void> cancel(@PathVariable Long paymentId) {
+  public ResponseEntity<Void> cancel(@PathVariable Long paymentId) throws JsonProcessingException {
     Payment paymentToCancel = paymentService.findOne(paymentId);
     paymentService.cancel(paymentToCancel);
 
