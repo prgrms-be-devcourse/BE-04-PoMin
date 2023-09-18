@@ -1,5 +1,6 @@
 package com.ray.pomin.order;
 
+import com.ray.pomin.payment.domain.Payment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,9 +19,9 @@ public class OrderTest {
 
     @Test
     public void testPaidOrder() {
-        order.paid();
+        Order paidOrder = order.paid(Payment.builder().build());
 
-        assertEquals(OrderStatus.PAID, order.getOrderStatus());
+        assertEquals(OrderStatus.PAID, paidOrder.getOrderStatus());
     }
 
     @Test
