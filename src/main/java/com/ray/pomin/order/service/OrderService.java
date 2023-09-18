@@ -34,4 +34,10 @@ public class OrderService {
     public List<Order> getOrdersByCustomerId(Long customerId) {
         return orderRepository.findByCustomerId(customerId);
     }
+
+    public Order getOrderByOrderNumber(String orderNumber) {
+        return orderRepository.findByOrderInfoOrderNumber(orderNumber)
+                .orElseThrow(() -> new IllegalArgumentException("해당 주문이 없습니다."));
+    }
+
 }
