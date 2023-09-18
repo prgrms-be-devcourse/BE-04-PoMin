@@ -33,16 +33,6 @@ public class PaymentController {
   }
 
   @ResponseBody
-  @GetMapping("/payment/success")
-  public ResponseEntity<Void> create(@RequestParam String orderId,
-                                            @RequestParam String paymentKey,
-                                            @RequestParam int amount) throws JsonProcessingException {
-    Long paymentId = paymentService.create(orderId, paymentKey, amount);
-
-    return ResponseEntity.created(URI.create("/api/v1/payments" + paymentId)).build();
-  }
-
-  @ResponseBody
   @GetMapping("/payment/fail")
   public ResponseEntity<PaymentFailResponse> fail(@RequestParam String code,
                                                   @RequestParam String message,

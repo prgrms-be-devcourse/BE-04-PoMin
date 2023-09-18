@@ -90,14 +90,14 @@ public class Order extends BaseTimeEntity {
                 .build();
     }
 
-    public Order paid() {
+    public Order paid(Payment payment) {
         return Order.builder()
                 .id(this.id)
                 .orderInfo(this.orderInfo)
                 .orderItems(this.orderItems)
                 .store(this.store)
                 .customerId(this.customerId)
-                .payment(this.payment)
+                .payment(payment)
                 .orderStatus(OrderStatus.PAID)
                 .build();
     }
