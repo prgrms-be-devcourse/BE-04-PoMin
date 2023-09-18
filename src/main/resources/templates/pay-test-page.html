@@ -43,7 +43,7 @@
         paymentWidget.requestPayment({ // 인증
             orderId: generateRandomString(), // 요청을 통해 가져온 orderId
             orderName: "주문한_상품들_이름",
-            successUrl: window.location.origin + "/payment/success",
+            successUrl: window.location.origin + "/orders/payOrder",
             failUrl: window.location.origin + "/payment/fail",
         });
     });
