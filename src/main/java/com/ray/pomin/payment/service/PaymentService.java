@@ -37,4 +37,10 @@ public class PaymentService {
             .orElseThrow(() -> new NoSuchElementException("존재하지 않는 결제건 입니다."));
   }
 
+  @Transactional(readOnly = true)
+  public Payment findByPgInfoPayKey(String payKey) {
+    return paymentRepository.findByPgInfoPayKey(payKey)
+            .orElseThrow(() -> new NoSuchElementException("존재하지 않는 결제건 입니다."));
+  }
+
 }
