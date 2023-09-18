@@ -5,13 +5,15 @@ import com.ray.pomin.order.Cart;
 import com.ray.pomin.order.Order;
 import com.ray.pomin.order.controller.dto.OrderResponse;
 import com.ray.pomin.order.service.OrderService;
+import com.ray.pomin.payment.domain.Payment;
+import com.ray.pomin.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -24,13 +26,16 @@ public class OrderController {
 
     private final OrderService orderService;
 
+    private final PaymentService paymentService;
+
     @PostMapping("/orders")
-    public OrderResponse saveOrder(@RequestBody Cart cart) {
+    public OrderResponse saveOrder(@RequestBody Cart cart, @RequestParam String paymentKey) {
         Order order = cart.toOrder();
         orderService.createOrder(order);
-        payOrder(order);
+        payOrder(order, paymentKey);
         return new OrderResponse(order);
     }
+
 
     @GetMapping("/orders")
     public List<OrderResponse> getOrdersByCustomerId(@AuthenticationPrincipal Claims claims) {
@@ -40,8 +45,9 @@ public class OrderController {
                 .collect(Collectors.toList());
     }
 
-    private void payOrder(Order order) {
-        orderService.payOrder(order.getId());
+    private void payOrder(Order order, String paymentKey) {
+        Payment payment = paymentService.findByPgInfoPayKey(paymentKey);
+        orderService.payOrder(order.getId(), payment);
     }
 
 }
