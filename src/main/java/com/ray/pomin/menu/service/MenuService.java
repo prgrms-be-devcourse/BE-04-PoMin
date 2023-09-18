@@ -15,6 +15,10 @@ public class MenuService {
 
     private final MenuRepository menuRepository;
 
+    public void save(Menu menu) {
+        menuRepository.save(menu);
+    }
+
     public List<Menu> getAllInStore(Long storeId) {
         return menuRepository.findAllByStoreId(storeId);
     }
