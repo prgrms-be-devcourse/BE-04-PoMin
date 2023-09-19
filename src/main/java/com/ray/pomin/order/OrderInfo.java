@@ -23,8 +23,4 @@ public class OrderInfo {
         this.orderNumber = OrderNumberGenerator.generateOrderNumber();
     }
 
-    public static OrderInfo acceptOrderInfo(String orderNumber, OrderRequest orderRequest) {
-        return new OrderInfo(orderNumber, orderRequest.receiptNumber(), orderRequest.request(), orderRequest.cookingMinute());
-    }
-
 }

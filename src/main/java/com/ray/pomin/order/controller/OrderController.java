@@ -64,7 +64,7 @@ public class OrderController {
     @PostMapping("/{orderNumber}")
     public ResponseEntity<OrderRequest> acceptOrder(@PathVariable String orderNumber, @RequestBody OrderRequest orderRequest) {
         Order order = orderService.getOrderByOrderNumber(orderNumber);
-        OrderInfo orderInfo = OrderInfo.acceptOrderInfo(orderNumber, orderRequest);
+        OrderInfo orderInfo = orderRequest.createOrderInfo(orderNumber);
         orderService.acceptOrder(order, orderInfo);
         return new ResponseEntity<>(HttpStatus.OK);
     }
