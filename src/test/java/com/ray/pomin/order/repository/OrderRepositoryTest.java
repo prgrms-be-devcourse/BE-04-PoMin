@@ -1,6 +1,7 @@
 package com.ray.pomin.order.repository;
 
 import com.ray.pomin.order.Order;
+import com.ray.pomin.order.OrderInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,12 @@ public class OrderRepositoryTest {
     public void setUp() {
         Order order1 = Order.builder()
                 .customerId(1L)
+                .orderInfo(new OrderInfo())
                 .build();
 
         Order order2 = Order.builder()
                 .customerId(2L)
+                .orderInfo(new OrderInfo())
                 .build();
 
         entityManager.persist(order1);
