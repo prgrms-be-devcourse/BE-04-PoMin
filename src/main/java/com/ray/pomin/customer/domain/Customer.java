@@ -67,4 +67,8 @@ public class Customer {
     public String getEmail() {
         return login.getEmail();
     }
+
+    public String getPassword() {
+        return login.getPassword();
+    }
 }
