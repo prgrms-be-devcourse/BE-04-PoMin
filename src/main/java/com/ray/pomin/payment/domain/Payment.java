@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,8 +21,6 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor(access = PROTECTED)
 public class Payment {
@@ -46,18 +43,25 @@ public class Payment {
 
   private LocalDateTime approvedAt;
 
-  public Payment(int amount, PaymentStatus status, PGInfo pgInfo, PayInfo payInfo, LocalDateTime approvedAt) {
-    validate(amount > 0, "결제금액은 0 보다 커야합니다");
-    validate(!isNull(status), "결제상태는 필수 값입니다");
-    validate(!isNull(pgInfo), "PG사 정보는 필수 값입니다");
-    validate(!isNull(payInfo), "결제 수단 정보는 필수 값입니다");
-    validate(!isNull(approvedAt), "결제 일시는 필수 값입니다");
+  @Builder
+  private Payment(Long id, int amount, PaymentStatus status, PGInfo pgInfo, PayInfo payInfo, LocalDateTime approvedAt) {
+    validatePayment(amount, status, pgInfo, payInfo, approvedAt);
 
+    this.id = id;
     this.amount = amount;
     this.status = status;
     this.pgInfo = pgInfo;
     this.payInfo = payInfo;
     this.approvedAt = approvedAt;
+  }
+
+  private void validatePayment(int amount, PaymentStatus status, PGInfo pgInfo, PayInfo payInfo, LocalDateTime approvedAt) {
+    validate(amount > 0, "결제금액은 0 보다 커야합니다");
+    validate(!isNull(status), "결제상태는 필수 값입니다");
+    validate(!isNull(pgInfo), "PG사 정보는 필수 값입니다");
+    validate(!isNull(payInfo), "결제 수단 정보는 필수 값입니다");
+    validate(!isNull(approvedAt), "결제 일시는 필수 값입니다");
+    validate(approvedAt.isBefore(LocalDateTime.now()), "결제일시가 유효하지 않습니다");
   }
 
   public Payment cancel(LocalDateTime canceledAt) {

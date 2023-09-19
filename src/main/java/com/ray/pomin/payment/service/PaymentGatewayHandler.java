@@ -1,7 +1,6 @@
 package com.ray.pomin.payment.service;
 
 import com.ray.pomin.payment.controller.dto.PaymentCancelRequest;
-import com.ray.pomin.payment.controller.dto.PaymentInfo;
 import com.ray.pomin.payment.domain.Payment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,7 +29,7 @@ public class PaymentGatewayHandler {
 
     private final PaymentGatewayResponseParser parser;
 
-    PaymentInfo makePaymentRequest(String orderId, String paymentKey, int amount) {
+    Payment makePaymentRequest(String orderId, String paymentKey, int amount) {
         Map<String, String> paymentRequestBody = createPaymentRequest(orderId, paymentKey, amount);
         HttpHeaders headers = createRequestHeader();
         HttpEntity<Object> requestBody = new HttpEntity<>(paymentRequestBody, headers);
@@ -38,7 +37,7 @@ public class PaymentGatewayHandler {
         String url = "https://api.tosspayments.com/v1/payments/confirm";
         ResponseEntity<String> response = restTemplate.exchange(url, POST, requestBody, String.class);
 
-        return parser.getPaymentInfoFrom(response);
+        return parser.getPayment(response);
     }
 
     private Map<String, String> createPaymentRequest(String orderId, String paymentKey, int amount) {
@@ -61,13 +60,13 @@ public class PaymentGatewayHandler {
         return "Basic "+ new String(encodedSecretKey, 0, encodedSecretKey.length);
     }
 
-    public PaymentInfo cancelPaymentRequest(Payment payment) {
+    public Payment cancelPaymentRequest(Payment payment) {
         String url = format("https://api.tosspayments.com/v1/payments/{0}/cancel", payment.getPgInfo().getPayKey());
         HttpEntity<PaymentCancelRequest> requestBody = new HttpEntity<>(new PaymentCancelRequest("결제취소사유"), createRequestHeader());
-
         ResponseEntity<String> response = restTemplate.exchange(url, POST, requestBody, String.class);
+        Payment canceledPayment = parser.getPayment(response);
 
-        return parser.getPaymentInfoFrom(response);
+        return payment.cancel(canceledPayment.getApprovedAt());
     }
 
 }

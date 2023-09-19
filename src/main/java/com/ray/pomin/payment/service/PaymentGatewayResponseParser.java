@@ -3,9 +3,11 @@ package com.ray.pomin.payment.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ray.pomin.payment.controller.dto.PaymentInfo;
+import com.ray.pomin.payment.domain.PGInfo;
+import com.ray.pomin.payment.domain.PayInfo;
 import com.ray.pomin.payment.domain.PayMethod;
 import com.ray.pomin.payment.domain.PayType;
+import com.ray.pomin.payment.domain.Payment;
 import com.ray.pomin.payment.domain.PaymentStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
+import static com.ray.pomin.payment.domain.PGType.TOSS;
 import static com.ray.pomin.payment.domain.PayMethod.EASYPAY;
 import static com.ray.pomin.payment.domain.PayMethod.findByTitle;
 
@@ -24,7 +27,7 @@ public class PaymentGatewayResponseParser {
 
     private final ObjectMapper objectMapper;
 
-    public PaymentInfo getPaymentInfoFrom(ResponseEntity<String> response) {
+    public Payment getPayment(ResponseEntity<String> response) {
         try {
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
             int amount = extractIntValue(jsonNode,"totalAmount");
@@ -34,7 +37,13 @@ public class PaymentGatewayResponseParser {
             PayType payType = getPayType(jsonNode, payMethod);
             LocalDateTime approvedAt = getTime(jsonNode);
 
-            return new PaymentInfo(amount, status, paymentKey, payMethod, payType, approvedAt);
+            return Payment.builder()
+                    .amount(amount)
+                    .status(status)
+                    .pgInfo(new PGInfo(TOSS, paymentKey))
+                    .payInfo(new PayInfo(payMethod, payType))
+                    .approvedAt(approvedAt)
+                    .build();
 
         } catch (JsonProcessingException exception) {
             log.debug("JsonProcessing Exception = {}", exception.getMessage());
