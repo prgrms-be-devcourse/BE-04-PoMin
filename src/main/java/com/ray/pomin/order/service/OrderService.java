@@ -1,6 +1,7 @@
 package com.ray.pomin.order.service;
 
 import com.ray.pomin.order.Order;
+import com.ray.pomin.order.OrderInfo;
 import com.ray.pomin.order.repository.OrderRepository;
 import com.ray.pomin.payment.domain.Payment;
 import jakarta.transaction.Transactional;
@@ -29,6 +30,12 @@ public class OrderService {
         order.place();
         orderRepository.save(order);
         return order;
+    }
+
+    @Transactional
+    public Order acceptOrder(Order order, OrderInfo orderInfo) {
+        Order acceptedOrder = order.acceptOrder(orderInfo);
+        return orderRepository.save(acceptedOrder);
     }
 
     public List<Order> getOrdersByCustomerId(Long customerId) {
