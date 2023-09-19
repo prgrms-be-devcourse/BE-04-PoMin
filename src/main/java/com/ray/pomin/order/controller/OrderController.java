@@ -1,6 +1,6 @@
 package com.ray.pomin.order.controller;
 
-import com.ray.pomin.customer.controller.dto.OrderRequest;
+import com.ray.pomin.order.controller.dto.OrderRequest;
 import com.ray.pomin.global.auth.model.Claims;
 import com.ray.pomin.order.Cart;
 import com.ray.pomin.order.Order;

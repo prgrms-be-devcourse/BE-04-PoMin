@@ -1,7 +1,7 @@
 package com.ray.pomin.order;
 
 import com.ray.pomin.common.util.OrderNumberGenerator;
-import com.ray.pomin.customer.controller.dto.OrderRequest;
+import com.ray.pomin.order.controller.dto.OrderRequest;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
