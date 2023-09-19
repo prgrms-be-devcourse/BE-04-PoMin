@@ -34,7 +34,7 @@ public class OrderController {
 
     private final PaymentService paymentService;
 
-    @PostMapping()
+    @PostMapping
     public OrderResponse saveOrder(@RequestBody Cart cart, @RequestParam String paymentKey) {
         Order order = cart.toOrder();
         orderService.createOrder(order);
@@ -66,6 +66,7 @@ public class OrderController {
         Order order = orderService.getOrderByOrderNumber(orderNumber);
         OrderInfo orderInfo = orderRequest.createOrderInfo(orderNumber);
         orderService.acceptOrder(order, orderInfo);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

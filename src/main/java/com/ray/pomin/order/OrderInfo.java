@@ -6,9 +6,9 @@ import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@Getter
 @Embeddable
 @AllArgsConstructor
-@Getter
 public class OrderInfo {
 
     private String orderNumber;
