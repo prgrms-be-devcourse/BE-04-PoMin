@@ -23,8 +23,10 @@ public class PaymentService {
     return paymentRepository.save(completedPayment).getId();
   }
 
-  public void cancel(Payment payment) {
-    Payment canceledPayment = paymentGatewayHandler.cancelPaymentRequest(payment);
+  public void cancel(Long paymentId) {
+    Payment paymentToCancel = paymentRepository.findById(paymentId)
+            .orElseThrow(() -> new NoSuchElementException("존재하지 않는 결제건 입니다"));
+    Payment canceledPayment = paymentGatewayHandler.cancelPaymentRequest(paymentToCancel);
 
     paymentRepository.save(canceledPayment);
   }
