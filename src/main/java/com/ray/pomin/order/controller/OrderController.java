@@ -61,7 +61,7 @@ public class OrderController {
         return ResponseEntity.created(URI.create("/api/v1/payments" + paymentId)).build();
     }
 
-    @PostMapping("{orderNumber}")
+    @PostMapping("/{orderNumber}")
     public ResponseEntity<OrderRequest> acceptOrder(@PathVariable String orderNumber, @RequestBody OrderRequest orderRequest) {
         Order order = orderService.getOrderByOrderNumber(orderNumber);
         OrderInfo orderInfo = OrderInfo.acceptOrderInfo(orderNumber, orderRequest);
