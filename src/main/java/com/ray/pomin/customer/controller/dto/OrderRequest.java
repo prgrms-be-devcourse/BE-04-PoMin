@@ -1,5 +1,5 @@
 package com.ray.pomin.customer.controller.dto;
 
-public record OrderRequest(int receiptNumber, int cookingMinute, long storeId) {
+public record OrderRequest(String receiptNumber, String request, int cookingMinute, long storeId) {
 }
 
