@@ -24,4 +24,9 @@ public class MenuInfo {
         this.primaryDetails = primaryDetails;
         this.additionalDetails = additionalDetails;
     }
+
+    public int getPrice() {
+        return Integer.parseInt(primaryDetails.getPrice());
+    }
+
 }

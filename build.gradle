@@ -51,6 +51,9 @@ dependencies {
 
 	implementation 'com.auth0:java-jwt:4.3.0'
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+	// API 통신 실패시 재요청을 위한 의존성 추가
+	implementation 'org.springframework.retry:spring-retry:2.0.0'
 }
 
 tasks.named('test') {
