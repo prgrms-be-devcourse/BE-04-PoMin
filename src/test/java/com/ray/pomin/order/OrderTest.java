@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
+import java.util.List;
 
 import static com.ray.pomin.payment.domain.PGType.TOSS;
 import static com.ray.pomin.payment.domain.PayMethod.CARD;
@@ -96,7 +96,7 @@ public class OrderTest {
 
         Order order = Order.builder()
                 .orderStatus(OrderStatus.CREATED)
-                .orderItems(Arrays.asList(item1, item2))
+                .orderItems(List.of(item1, item2))
                 .build();
 
         int totalPrice = order.getTotalPrice();
