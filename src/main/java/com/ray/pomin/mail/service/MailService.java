@@ -19,7 +19,7 @@ public class MailService {
 
     private final JavaMailSender mailSender;
 
-    private final StringRedisTemplate stringRedisTemplate;
+    private final StringRedisTemplate mailRedisTemplate;
 
     @Value("${spring.mail.username}")
     private String from;
@@ -44,9 +44,9 @@ public class MailService {
         Random random = new Random();
         String code = String.format("%04d", random.nextInt(10000));
 
-        ValueOperations<String, String> valueOperations = stringRedisTemplate.opsForValue();
+        ValueOperations<String, String> valueOperations = mailRedisTemplate.opsForValue();
         valueOperations.set(email, code);
-        stringRedisTemplate.expire(email, Duration.ofMinutes(5L));
+        mailRedisTemplate.expire(email, Duration.ofMinutes(5L));
 
         return code;
     }
@@ -56,13 +56,13 @@ public class MailService {
     }
 
     private boolean checkExpireTime(String email) {
-        Long expireTime = stringRedisTemplate.getExpire(email);
+        Long expireTime = mailRedisTemplate.getExpire(email);
 
         return expireTime != null && expireTime > 0;
     }
 
     private boolean checkIsCodeEqual(String email, String receiveCode) {
-        return receiveCode.equals(stringRedisTemplate.opsForValue().get(email));
+        return receiveCode.equals(mailRedisTemplate.opsForValue().get(email));
     }
 
 }
