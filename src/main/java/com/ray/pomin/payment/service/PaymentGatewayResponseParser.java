@@ -27,13 +27,13 @@ public class PaymentGatewayResponseParser {
 
     private final ObjectMapper objectMapper;
 
-    public Payment getPayment(ResponseEntity<String> response) {
+    public Payment getPayment(ResponseEntity<String> response, Long customerId) {
         try {
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
-            int amount = extractIntValue(jsonNode,"totalAmount");
-            PaymentStatus status = extractValue(jsonNode,"status").equals("DONE") ? PaymentStatus.COMPLETE : PaymentStatus.CANCELED;
+            int amount = extractIntValue(jsonNode, "totalAmount");
+            PaymentStatus status = extractValue(jsonNode, "status").equals("DONE") ? PaymentStatus.COMPLETE : PaymentStatus.CANCELED;
             String paymentKey = extractValue(jsonNode, "paymentKey");
-            PayMethod payMethod = findByTitle(extractValue(jsonNode,"method"));
+            PayMethod payMethod = findByTitle(extractValue(jsonNode, "method"));
             PayType payType = getPayType(jsonNode, payMethod);
             LocalDateTime approvedAt = getTime(jsonNode);
 
@@ -43,6 +43,7 @@ public class PaymentGatewayResponseParser {
                     .pgInfo(new PGInfo(TOSS, paymentKey))
                     .payInfo(new PayInfo(payMethod, payType))
                     .approvedAt(approvedAt)
+                    .customerId(customerId)
                     .build();
 
         } catch (JsonProcessingException exception) {
@@ -63,9 +64,10 @@ public class PaymentGatewayResponseParser {
         String time = jsonNode.get(valueName).textValue().split("\\+")[0];
         return LocalDateTime.parse(time);
     }
+
     private PayType getPayType(JsonNode jsonNode, PayMethod payMethod) {
         if (payMethod == EASYPAY) {
-            return PayType.findByTitle(extractValue(jsonNode,"easyPay"));
+            return PayType.findByTitle(extractValue(jsonNode, "easyPay"));
         }
         return PayType.findByCode(extractValue(jsonNode.get("card"), "issuerCode"));
     }
