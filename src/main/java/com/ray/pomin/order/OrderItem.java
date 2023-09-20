@@ -27,8 +27,16 @@ public class OrderItem extends BaseTimeEntity {
 
     private String name;
 
+    private int price;
+
     @Getter
     private int count;
+
+    public OrderItem(Menu menu, int count) {
+        this.menu = menu;
+        this.count = count;
+        this.price = menu.getMenuInfo().getPrice() * count;
+    }
 
     public int getItemPrice() {
         return menu.getPrice() * count;
