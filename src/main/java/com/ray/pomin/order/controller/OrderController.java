@@ -1,7 +1,7 @@
 package com.ray.pomin.order.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ray.pomin.global.auth.model.Claims;
+import com.ray.pomin.global.auth.model.JwtUser;
 import com.ray.pomin.order.Cart;
 import com.ray.pomin.order.Order;
 import com.ray.pomin.order.controller.dto.OrderResponse;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
@@ -52,9 +51,10 @@ public class OrderController {
     @GetMapping("/orders/payOrder")
     public ResponseEntity<Void> create(@RequestParam String orderNumber,
                                        @RequestParam String paymentKey,
-                                       @RequestParam int amount) {
-        Long paymentId = paymentService.create(orderNumber, paymentKey, amount);
+                                       @RequestParam int amount,
+                                       @AuthenticationPrincipal JwtUser user) {
         Order order = orderService.getOrderByOrderNumber(orderNumber);
+        Long paymentId = paymentService.create(orderNumber, paymentKey, amount, order.getCustomerId());
         payOrder(order, paymentKey);
         return ResponseEntity.created(URI.create("/api/v1/payments" + paymentId)).build();
     }
