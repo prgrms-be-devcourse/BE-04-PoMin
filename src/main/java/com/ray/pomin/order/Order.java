@@ -108,4 +108,16 @@ public class Order extends BaseTimeEntity {
                 .sum();
     }
 
+    public Order acceptOrder(OrderInfo orderInfo) {
+        return Order.builder()
+                .id(this.id)
+                .orderInfo(orderInfo)
+                .orderItems(this.orderItems)
+                .store(this.store)
+                .customerId(this.customerId)
+                .payment(payment)
+                .orderStatus(OrderStatus.COMPLETED)
+                .build();
+    }
+
 }

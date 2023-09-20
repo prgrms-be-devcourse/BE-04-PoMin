@@ -1,9 +1,11 @@
 package com.ray.pomin.customer.controller;
 
 import com.ray.pomin.customer.controller.dto.SaveCustomerRequest;
+import com.ray.pomin.customer.controller.dto.SaveOAuthCustomerRequest;
 import com.ray.pomin.customer.domain.Customer;
 import com.ray.pomin.customer.service.CustomerService;
 import com.ray.pomin.global.auth.model.Claims;
+import com.ray.pomin.global.auth.model.OAuthCustomerInfo;
 import com.ray.pomin.global.auth.model.Token;
 import com.ray.pomin.global.auth.token.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,13 @@ public class CustomerController {
         Customer savedCustomer = customerService.save(request.toEntity(passwordEncoder));
 
         return jwtService.createToken(Claims.customer(savedCustomer.getId()));
+    }
+
+    @PostMapping("/customers/oauth")
+    public Token saveOAuthCustomer(@RequestBody SaveOAuthCustomerRequest request) {
+        OAuthCustomerInfo customerInfo = customerService.additionalCustomerInfo(request.oAuthId());
+
+        return saveCustomer(request.convertToSaveCustomerRequest(customerInfo));
     }
 
 }

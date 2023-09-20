@@ -3,14 +3,15 @@ package com.ray.pomin.global.config;
 import com.ray.pomin.global.auth.OAuthCustomerService;
 import com.ray.pomin.global.auth.OAuthSuccessHandler;
 import com.ray.pomin.global.auth.filter.JwtAuthorizationFilter;
+import com.ray.pomin.global.auth.filter.LoginProcessFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
 
 @Configuration
 @RequiredArgsConstructor
@@ -22,6 +23,8 @@ public class SecurityConfiguration {
     private final OAuthCustomerService oAuthCustomerService;
 
     private final OAuthSuccessHandler oAuthSuccessHandler;
+
+    private final LoginProcessFilter loginProcessFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -44,7 +47,9 @@ public class SecurityConfiguration {
                                 .successHandler(oAuthSuccessHandler)
                 );
 
-        http.addFilterAfter(jwtAuthorizationFilter, OAuth2LoginAuthenticationFilter.class);
+        http.addFilterAt(jwtAuthorizationFilter, DefaultLoginPageGeneratingFilter.class);
+        http.addFilterBefore(loginProcessFilter, JwtAuthorizationFilter.class);
+
         return http.build();
     }
 }
