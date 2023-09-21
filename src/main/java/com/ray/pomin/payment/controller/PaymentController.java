@@ -1,6 +1,9 @@
 package com.ray.pomin.payment.controller;
 
 import com.ray.pomin.global.auth.model.JwtUser;
+import com.ray.pomin.order.Order;
+import com.ray.pomin.order.controller.dto.OrderResponse;
+import com.ray.pomin.order.service.OrderService;
 import com.ray.pomin.payment.controller.dto.PaymentFailResponse;
 import com.ray.pomin.payment.controller.dto.PaymentResponse;
 import com.ray.pomin.payment.domain.Payment;
@@ -13,19 +16,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class PaymentController {
 
     private final PaymentService paymentService;
 
+    private final OrderService orderService;
+
     @GetMapping("/payment")
-    public String payPage(@RequestParam String orderId, Model model) {
-        // orderService 에서 orderId로 조회해서 model 에 담아서 전달
-        return "pay-test-page";
+    public String payPage(@RequestParam String orderNumber, Model model) {
+        Order order = orderService.getOrderByOrderNumber(orderNumber);
+        model.addAttribute("order", new OrderResponse(order));
+
+        return "pay-page";
     }
 
     @ResponseBody
