@@ -47,6 +47,8 @@ class PaymentServiceTest {
 
     final int amount = 10000;
 
+    final LocalDateTime approvedAt = LocalDateTime.now().minusSeconds(3);
+
     final Long customerId = 2L;
 
     final Payment payment = Payment.builder()
@@ -54,7 +56,7 @@ class PaymentServiceTest {
             .status(COMPLETE)
             .pgInfo(new PGInfo(TOSS, paymentKey))
             .payInfo(new PayInfo(CARD, KB))
-            .approvedAt(LocalDateTime.now())
+            .approvedAt(approvedAt)
             .customerId(customerId)
             .build();
 
