@@ -33,9 +33,10 @@ public class PaymentController {
     public ResponseEntity<PaymentFailResponse> fail(@RequestParam String code,
                                                     @RequestParam String message,
                                                     @RequestParam String orderId) {
-        return new ResponseEntity<>(new PaymentFailResponse(message, orderId), HttpStatus.valueOf(code));
+        return new ResponseEntity<>(new PaymentFailResponse(message, orderId), HttpStatus.BAD_REQUEST);
     }
 
+    @ResponseBody
     @GetMapping("/payments/{paymentId}")
     public PaymentResponse find(@PathVariable Long paymentId, @AuthenticationPrincipal JwtUser user) {
         Payment payment = paymentService.findOneCheckingAuth(paymentId, user.userId());

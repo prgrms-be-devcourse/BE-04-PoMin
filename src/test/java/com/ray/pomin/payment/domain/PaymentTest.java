@@ -18,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PaymentTest {
 
+    LocalDateTime approvedAt = LocalDateTime.now().minusSeconds(2);
+
     @Test
     @DisplayName("결제 생성에 성공한다")
     void successCreatePayment() {
@@ -27,7 +29,7 @@ class PaymentTest {
                             .status(COMPLETE)
                             .payInfo(new PayInfo(CARD, KB))
                             .pgInfo(new PGInfo(TOSS, "payKey-randomValue3wd"))
-                            .approvedAt(LocalDateTime.now())
+                            .approvedAt(approvedAt)
                             .build();
     }
 
@@ -41,7 +43,7 @@ class PaymentTest {
                 .status(COMPLETE)
                 .payInfo(new PayInfo(CARD, KB))
                 .pgInfo(new PGInfo(TOSS, "payKey-randomValue3wd"))
-                .approvedAt(LocalDateTime.now())
+                .approvedAt(approvedAt)
                 .build())
                 .isInstanceOf(IllegalArgumentException.class);
     }
@@ -55,7 +57,7 @@ class PaymentTest {
                 .status(COMPLETE)
                 .payInfo(new PayInfo(CARD, KAKAO_PAY))
                 .pgInfo(new PGInfo(TOSS, "payKey-randomValue3wd"))
-                .approvedAt(LocalDateTime.now())
+                .approvedAt(approvedAt)
                 .build())
                 .isInstanceOf(IllegalArgumentException.class);
     }
@@ -69,7 +71,7 @@ class PaymentTest {
                 .status(COMPLETE)
                 .payInfo(new PayInfo(CARD, KB))
                 .pgInfo(new PGInfo(TOSS, "payKey-randomValue3wd"))
-                .approvedAt(LocalDateTime.now().plusHours(3))
+                .approvedAt(approvedAt.plusHours(3))
                 .build())
                 .isInstanceOf(IllegalArgumentException.class);
     }
@@ -83,11 +85,11 @@ class PaymentTest {
                 .status(COMPLETE)
                 .payInfo(new PayInfo(CARD, KB))
                 .pgInfo(new PGInfo(TOSS, "payKey-randomValue3wd"))
-                .approvedAt(LocalDateTime.now().minusHours(3))
+                .approvedAt(approvedAt)
                 .build();
 
         // when
-        LocalDateTime canceledAt = LocalDateTime.now();
+        LocalDateTime canceledAt = LocalDateTime.now().minusSeconds(1);
         Payment canceledPayment = payment.cancel(canceledAt);
 
         // then
