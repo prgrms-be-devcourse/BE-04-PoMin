@@ -19,4 +19,4 @@ spring:
   config:
     activate:
       on-profile: prod
-    import: sub/application-db.yml
+    import: sub/application-db.yml, sub/application-redis.yml

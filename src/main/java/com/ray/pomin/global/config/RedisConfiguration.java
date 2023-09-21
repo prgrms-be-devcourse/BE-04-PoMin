@@ -19,6 +19,14 @@ public class RedisConfiguration {
     }
 
     @Bean
+    public StringRedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        StringRedisTemplate template = new StringRedisTemplate();
+        template.setConnectionFactory(redisConnectionFactory);
+
+        return template;
+    }
+
+    @Bean
     public RedisConnectionFactory mailRedisConnectionFactory(RedisProperties properties) {
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration(properties.getHost(), properties.getPort());
         configuration.setDatabase(1);
@@ -27,7 +35,7 @@ public class RedisConfiguration {
     }
 
     @Bean
-    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory mailRedisConnectionFactory) {
+    public StringRedisTemplate mailRedisTemplate(RedisConnectionFactory mailRedisConnectionFactory) {
         StringRedisTemplate template = new StringRedisTemplate();
         template.setConnectionFactory(mailRedisConnectionFactory);
 
