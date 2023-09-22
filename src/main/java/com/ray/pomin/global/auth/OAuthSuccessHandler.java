@@ -3,8 +3,11 @@ package com.ray.pomin.global.auth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ray.pomin.customer.domain.Customer;
 import com.ray.pomin.customer.repository.CustomerRepository;
+import com.ray.pomin.global.auth.dto.CustomerRegistration;
 import com.ray.pomin.global.auth.model.Claims;
 import com.ray.pomin.global.auth.model.OAuthCustomer;
+import com.ray.pomin.global.auth.model.OAuthCustomerInfo;
+import com.ray.pomin.global.auth.model.OAuthCustomerInfoRepository;
 import com.ray.pomin.global.auth.model.Token;
 import com.ray.pomin.global.auth.token.JwtService;
 import jakarta.servlet.ServletException;
@@ -29,6 +32,8 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final CustomerRepository customerRepository;
 
+    private final OAuthCustomerInfoRepository oAuthUserInfoRepository;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         OAuthCustomer oAuthCustomer = (OAuthCustomer) authentication.getPrincipal();
@@ -47,9 +52,12 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
             return;
         }
 
-        response.setHeader("Location", "/api/v1/customers");
+        response.setHeader("Location", "/api/v1/customers/oauth");
 
-        response.getWriter().println(objectMapper.writeValueAsString(oAuthCustomer.getRegistration()));
+        CustomerRegistration registration = oAuthCustomer.getRegistration();
+        OAuthCustomerInfo save = oAuthUserInfoRepository.save(new OAuthCustomerInfo(registration.email(), registration.name(), registration.providerName()));
+
+        response.getWriter().println(objectMapper.writeValueAsString(save.getId()));
     }
 
 }

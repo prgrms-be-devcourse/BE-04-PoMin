@@ -1,41 +1,41 @@
 package com.ray.pomin.payment.controller;
 
+import com.ray.pomin.global.auth.model.JwtUser;
+import com.ray.pomin.payment.controller.dto.PaymentFailResponse;
+import com.ray.pomin.payment.controller.dto.PaymentResponse;
+import com.ray.pomin.payment.domain.Payment;
 import com.ray.pomin.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.net.URI;
-
-@Slf4j
 @Controller
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class PaymentController {
 
-  @Value("${toss.api.testSecretApiKey}")
-  private String secretKey;
+    private final PaymentService paymentService;
 
-  private final PaymentService paymentService;
+    @ResponseBody
+    @GetMapping("/payment/fail")
+    public ResponseEntity<PaymentFailResponse> fail(@RequestParam String message,
+                                                    @RequestParam String orderId) {
+        return new ResponseEntity<>(new PaymentFailResponse(message, orderId), HttpStatus.BAD_REQUEST);
+    }
 
-  @GetMapping("/payment")
-  public String payPage(@RequestParam String orderId, Model model) {
-    // orderService 에서 orderId로 조회해서 model 에 담아서 전달
-    return "pay-test-page";
-  }
+    @ResponseBody
+    @GetMapping("/payments/{paymentId}")
+    public PaymentResponse find(@PathVariable Long paymentId, @AuthenticationPrincipal JwtUser user) {
+        Payment payment = paymentService.findOneCheckingAuth(paymentId, user.userId());
 
-  @ResponseBody
-  @GetMapping("/tosspayments/success")
-  public ResponseEntity<Void> create(@RequestParam String orderId,
-                                            @RequestParam String paymentKey,
-                                            @RequestParam int amount) {
-    Long paymentId = paymentService.doFinalPaymentRequest(orderId, paymentKey, amount);
+        return new PaymentResponse(payment);
+    }
 
-    return ResponseEntity.created(URI.create("/api/v1/payments" + paymentId)).build();
-  }
 }

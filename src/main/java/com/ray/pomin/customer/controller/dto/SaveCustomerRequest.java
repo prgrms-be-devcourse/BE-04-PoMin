@@ -18,7 +18,7 @@ public record SaveCustomerRequest(
         return new Customer(
                 new Login(email, password, encoder), nickname,
                 new CustomerInfo(name, LocalDate.parse(birthDate), new PhoneNumber(phoneNumber)),
-                Provider.valueOf(provider)
+                Provider.valueOf(provider.toUpperCase())
         );
     }
 

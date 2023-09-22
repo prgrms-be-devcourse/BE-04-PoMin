@@ -4,7 +4,7 @@ spring:
   jpa:
     open-in-view: false
   config:
-    import: sub/application-kakao.yml, dev/application-jwt.yml, dev/application-payment.yml
+    import: sub/application-kakao.yml, dev/application-jwt.yml, dev/application-payment.yml, sub/application-mail.yml
 ---
 spring:
   config:
@@ -19,4 +19,4 @@ spring:
   config:
     activate:
       on-profile: prod
-    import: sub/application-db.yml
+    import: sub/application-db.yml, sub/application-redis.yml

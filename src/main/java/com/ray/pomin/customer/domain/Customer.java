@@ -53,11 +53,14 @@ public class Customer {
         validate(!isNull(provider), "로그인 제공자 정보는 필수 값입니다");
     }
 
-    public Customer addLoginProvider(String providerName) {
-        Customer customer = new Customer(this.login, this.nickname, this.information, Provider.valueOf(providerName));
-        customer.loginProviders.addAll(this.loginProviders);
+    private Customer(Long id, Login login, String nickname, CustomerInfo information, Provider provider, List<LoginProvider> loginProviders) {
+        this(login, nickname, information, provider);
+        this.id = id;
+        this.loginProviders.addAll(loginProviders);
+    }
 
-        return customer;
+    public Customer addLoginProvider(String providerName) {
+        return new Customer(this.id, this.login, this.nickname, this.information, Provider.valueOf(providerName.toUpperCase()), this.loginProviders);
     }
 
     public Long getId() {
@@ -66,5 +69,9 @@ public class Customer {
 
     public String getEmail() {
         return login.getEmail();
+    }
+
+    public String getPassword() {
+        return login.getPassword();
     }
 }

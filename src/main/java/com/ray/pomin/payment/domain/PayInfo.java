@@ -31,4 +31,12 @@ public class PayInfo {
     this.type = type;
   }
 
+  public PayMethod getMethod() {
+    return method;
+  }
+
+  public PayType getType() {
+    return type;
+  }
+
 }
