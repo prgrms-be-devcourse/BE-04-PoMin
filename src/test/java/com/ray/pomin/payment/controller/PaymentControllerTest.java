@@ -3,7 +3,6 @@ package com.ray.pomin.payment.controller;
 import com.ray.pomin.common.util.OrderNumberGenerator;
 import com.ray.pomin.common.util.WithPominUser;
 import com.ray.pomin.customer.controller.base.ControllerUnit;
-import com.ray.pomin.order.service.OrderService;
 import com.ray.pomin.payment.domain.PGInfo;
 import com.ray.pomin.payment.domain.PGType;
 import com.ray.pomin.payment.domain.PayInfo;
@@ -39,9 +38,6 @@ class PaymentControllerTest extends ControllerUnit {
 
     @MockBean
     private PaymentService paymentService;
-
-    @MockBean
-    private OrderService orderService;
 
     @Test
     @WithPominUser
