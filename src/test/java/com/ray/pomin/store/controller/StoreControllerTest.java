@@ -30,6 +30,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
 import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
+import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
@@ -57,6 +58,7 @@ class StoreControllerTest extends ControllerUnit {
     void successSaveStore() throws Exception {
         // given
         StoreSaveRequest request = new StoreSaveRequest(
+                1L,
                 "storeName",
                 "010-1234-5678",
                 "서울시 강남구 역삼동",
@@ -80,6 +82,7 @@ class StoreControllerTest extends ControllerUnit {
                 .andDo(
                         document("store/save",
                                 requestFields(
+                                        fieldWithPath("id").type(NUMBER).description(""),
                                         fieldWithPath("name").type(STRING).description(""),
                                         fieldWithPath("phoneNumber").type(STRING).description(""),
                                         fieldWithPath("mainAddress").type(STRING).description(""),

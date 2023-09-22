@@ -58,6 +58,11 @@ public class Store extends BaseTimeEntity {
         this.storeImages.addAll(convertImage(images));
     }
 
+    public Store(Long id, String name, String phoneNumber, Address address, Point addressPoint, StoreTime time, List<String> images) {
+        this(name, phoneNumber, address, addressPoint, time, images);
+        this.id = id;
+    }
+
     private void validateStore(String name, String phoneNumber, Address address, Point addressPoint, StoreTime time, List<String> images) {
         validate(!isNull(name), "이름은 빈값일 수 없습니다");
         validate(!isNull(phoneNumber), "가게 전화번호는 빈값일 수 없습니다");
