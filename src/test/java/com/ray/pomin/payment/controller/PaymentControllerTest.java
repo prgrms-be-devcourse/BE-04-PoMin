@@ -63,7 +63,7 @@ class PaymentControllerTest extends ControllerUnit {
         given(paymentService.findOneCheckingAuth(paymentId, 1L)).willReturn(payment);
 
         //when
-        ResultActions resultActions = mvc.perform(RestDocumentationRequestBuilders.get("/payments/{paymentId}", paymentId)
+        ResultActions resultActions = mvc.perform(RestDocumentationRequestBuilders.get("/api/v1/payments/{paymentId}", paymentId)
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON));
 
@@ -99,7 +99,7 @@ class PaymentControllerTest extends ControllerUnit {
         String orderId = OrderNumberGenerator.generateOrderNumber();
 
         //when
-        ResultActions resultActions = mvc.perform(RestDocumentationRequestBuilders.get("/payment/fail")
+        ResultActions resultActions = mvc.perform(RestDocumentationRequestBuilders.get("/api/v1/payment/fail")
                 .param("code", code)
                 .param("message", message)
                 .param("orderId", orderId)
