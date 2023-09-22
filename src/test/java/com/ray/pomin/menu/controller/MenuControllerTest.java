@@ -37,7 +37,7 @@ class MenuControllerTest extends ControllerUnit {
     @Test
     void successSaveMenu() throws Exception {
         // given
-        SaveMenuRequest request = new SaveMenuRequest("name", "1000", "imageUrl",
+        SaveMenuRequest request = new SaveMenuRequest(1L, "name", "1000", "imageUrl",
                 "best_seller", "description",
                 false, 1L);
         doNothing().when(menuService).save(any(Menu.class));
@@ -52,6 +52,7 @@ class MenuControllerTest extends ControllerUnit {
         action.andExpect(status().isOk())
                 .andDo(document("menu/save",
                                 requestFields(
+                                        fieldWithPath("id").type(NUMBER).description("메뉴 아이디"),
                                         fieldWithPath("name").type(STRING).description("메뉴 이름"),
                                         fieldWithPath("price").type(STRING).description("메뉴 가격"),
                                         fieldWithPath("imageUrl").type(STRING).description("메뉴 이미지 저장 링크"),

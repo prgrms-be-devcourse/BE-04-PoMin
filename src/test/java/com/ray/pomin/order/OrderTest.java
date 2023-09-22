@@ -52,7 +52,7 @@ public class OrderTest {
                 .status(COMPLETE)
                 .payInfo(new PayInfo(CARD, KB))
                 .pgInfo(new PGInfo(TOSS, "payKey-randomValue3wd"))
-                .approvedAt(LocalDateTime.now())
+                .approvedAt(LocalDateTime.now().minusHours(2))
                 .build());
 
         assertEquals(OrderStatus.PAID, paidOrder.getOrderStatus());
