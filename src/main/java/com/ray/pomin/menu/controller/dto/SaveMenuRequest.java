@@ -7,7 +7,7 @@ import com.ray.pomin.menu.domain.MenuOption;
 import com.ray.pomin.menu.domain.PrimaryDetails;
 
 public record SaveMenuRequest(
-        String name, String price,
+        Long id, String name, String price,
         String imageUrl, String menuOptionName, String description,
         boolean verifyAge, Long storeId
 ) {
@@ -17,7 +17,7 @@ public record SaveMenuRequest(
         AdditionalDetails additionalDetails = new AdditionalDetails(imageUrl, MenuOption.valueOf(menuOptionName.toUpperCase()), description);
         MenuInfo info = new MenuInfo(primaryDetails, additionalDetails);
 
-        return new Menu(info, verifyAge, storeId);
+        return new Menu(id, info, verifyAge, storeId);
     }
 
 }
