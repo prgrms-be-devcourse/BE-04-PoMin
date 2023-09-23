@@ -8,6 +8,7 @@ import com.ray.pomin.global.auth.model.Claims;
 import com.ray.pomin.global.auth.model.OAuthCustomerInfo;
 import com.ray.pomin.global.auth.model.Token;
 import com.ray.pomin.global.auth.token.JwtService;
+import com.ray.pomin.mail.service.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,12 +23,20 @@ public class CustomerController {
 
     private final JwtService jwtService;
 
+    private final MailService mailService;
+
     private final CustomerService customerService;
 
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/customers")
     public Token saveCustomer(@RequestBody SaveCustomerRequest request) {
+        mailService.checkAuthentication(request.email());
+
+        return getToken(request);
+    }
+
+    private Token getToken(SaveCustomerRequest request) {
         Customer savedCustomer = customerService.save(request.toEntity(passwordEncoder));
 
         return jwtService.createToken(Claims.customer(savedCustomer.getId()));
@@ -37,7 +46,7 @@ public class CustomerController {
     public Token saveOAuthCustomer(@RequestBody SaveOAuthCustomerRequest request) {
         OAuthCustomerInfo customerInfo = customerService.additionalCustomerInfo(request.oAuthId());
 
-        return saveCustomer(request.convertToSaveCustomerRequest(customerInfo));
+        return getToken(request.convertToSaveCustomerRequest(customerInfo));
     }
 
 }

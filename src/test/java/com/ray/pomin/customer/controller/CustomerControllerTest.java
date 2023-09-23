@@ -9,6 +9,7 @@ import com.ray.pomin.global.auth.model.Claims;
 import com.ray.pomin.global.auth.model.OAuthCustomerInfo;
 import com.ray.pomin.global.auth.model.Token;
 import com.ray.pomin.global.auth.token.JwtService;
+import com.ray.pomin.mail.service.MailService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -20,6 +21,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import static javax.management.openmbean.SimpleType.STRING;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -42,6 +44,9 @@ class CustomerControllerTest extends ControllerUnit {
     @MockBean
     private JwtService jwtService;
 
+    @MockBean
+    private MailService mailService;
+
     @Test
     @DisplayName("사용자 저장에 성공한다")
     void successSaveCustomer() throws Exception {
@@ -58,6 +63,7 @@ class CustomerControllerTest extends ControllerUnit {
         Customer customer = request.toEntity(passwordEncoder);
         given(customerService.save(customer)).willReturn(customer);
         given(jwtService.createToken(any(Claims.class))).willReturn(new Token("accessToken"));
+        doNothing().when(mailService).checkAuthentication(request.email());
 
         // when
         ResultActions action = mvc.perform(post("/api/v1/customers")
@@ -103,6 +109,7 @@ class CustomerControllerTest extends ControllerUnit {
         given(customerService.additionalCustomerInfo(1L)).willReturn(info);
         given(customerService.save(customer)).willReturn(customer);
         given(jwtService.createToken(any(Claims.class))).willReturn(new Token("accessToken"));
+        doNothing().when(mailService).checkAuthentication("email@gmail.com");
 
         // when
         ResultActions action = mvc.perform(post("/api/v1/customers/oauth")
