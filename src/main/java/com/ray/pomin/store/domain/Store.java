@@ -5,7 +5,6 @@ import com.ray.pomin.common.domain.BaseTimeEntity;
 import com.ray.pomin.common.domain.Point;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.EqualsAndHashCode;
@@ -27,7 +26,6 @@ import static lombok.AccessLevel.PROTECTED;
 public class Store extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
     private Long id;
 
     private String name;

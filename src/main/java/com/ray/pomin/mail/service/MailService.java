@@ -65,4 +65,20 @@ public class MailService {
         return receiveCode.equals(mailRedisTemplate.opsForValue().get(email));
     }
 
+    public void saveResult(String email, String result) {
+        ValueOperations<String, String> valueOperations = mailRedisTemplate.opsForValue();
+        valueOperations.set(email, result);
+    }
+
+    public void checkAuthentication(String email) {
+        ValueOperations<String, String> valueOperations = mailRedisTemplate.opsForValue();
+        String result = valueOperations.get(email);
+
+        if (result == null || !result.equals(String.valueOf(true))) {
+            throw new IllegalArgumentException("");
+        }
+
+        valueOperations.getOperations().delete(email);
+    }
+
 }

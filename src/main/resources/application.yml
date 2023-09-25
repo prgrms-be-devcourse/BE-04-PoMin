@@ -4,13 +4,13 @@ spring:
   jpa:
     open-in-view: false
   config:
-    import: sub/application-kakao.yml, dev/application-jwt.yml, dev/application-payment.yml, sub/application-mail.yml
+    import: sub/application-kakao-prod.yml, dev/application-jwt.yml, dev/application-payment.yml, sub/application-mail.yml
 ---
 spring:
   config:
     activate:
       on-profile: dev
-    import: dev/application-db.yml
+    import: dev/application-db.yml, sub/application-kakao.yml
   mvc:
     view:
       prefix: classpath:/templates/
