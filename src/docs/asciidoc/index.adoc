@@ -1,0 +1,34 @@
+= PoMin Customer Docs
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: API
+:toclevels: 2
+:sectlinks:
+
+== Customer Save
+operation::customer/save[snippets='http-request,http-response']
+
+== Customer Save OAuth
+operation::customer/saveOAuth[snippets='http-request,http-response']
+
+== Menu Save
+operation::customer/save[snippets='http-request,http-response']
+
+== Order Save
+operation::order/save[snippets='http-request,http-response']
+
+== Payment Find One
+operation::payment-get-one[snippets='http-request,http-response']
+
+== Payment Fail
+operation::payment-request-fail[snippets='http-request,http-response']
+
+== Store Save
+operation::store/save[snippets='http-request,http-response']
+
+== Store Find All
+operation::store/getAll[snippets='http-request,http-response']
+
+== Store Find One
+operation::store/getOne[snippets='http-request,http-response']

@@ -31,12 +31,12 @@ class StoreConditionListRepositoryTest {
         List<String> images = List.of("image1");
 
         storeRepository.saveAll(List.of(
-                new Store("store1", "010-1111-2222", address, new Point(37.6564929887299161, 127.06442614207607), time, images),
-                new Store("store2", "010-1111-2222", address, new Point(37.654353781192924, 127.0542251979854), time, images),
-                new Store("store3", "010-1111-2222", address, new Point(11222.2, 2.2), time, images),
-                new Store("store4", "010-1111-2222", address, new Point(13.4, 14.4), time, images),
-                new Store("store5", "010-1111-2222", address, new Point(13.5, 14.5), time, images),
-                new Store("store6", "010-1111-2222", address, new Point(13.6, 14.6), time, images)
+                new Store(1L, "store1", "010-1111-2222", address, new Point(37.6564929887299161, 127.06442614207607), time, images),
+                new Store(2L, "store2", "010-1111-2222", address, new Point(37.654353781192924, 127.0542251979854), time, images),
+                new Store(3L, "store3", "010-1111-2222", address, new Point(11222.2, 2.2), time, images),
+                new Store(4L, "store4", "010-1111-2222", address, new Point(13.4, 14.4), time, images),
+                new Store(5L, "store5", "010-1111-2222", address, new Point(13.5, 14.5), time, images),
+                new Store(6L, "store6", "010-1111-2222", address, new Point(13.6, 14.6), time, images)
         ));
 
         // when

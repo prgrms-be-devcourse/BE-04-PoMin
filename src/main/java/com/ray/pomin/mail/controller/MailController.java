@@ -24,7 +24,10 @@ public class MailController {
 
     @GetMapping("/mail/code/auth")
     public boolean checkAccessCode(@RequestParam String email, @RequestParam String code) {
-        return mailService.checkCode(email, code);
+        boolean result = mailService.checkCode(email, code);
+        mailService.saveResult(email, String.valueOf(result));
+
+        return result;
     }
 
 }

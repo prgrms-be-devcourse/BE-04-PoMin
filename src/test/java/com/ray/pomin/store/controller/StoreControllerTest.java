@@ -73,7 +73,7 @@ class StoreControllerTest extends ControllerUnit {
         doNothing().when(storeService).save(store);
 
         //when
-        ResultActions action = mvc.perform(post("/stores")
+        ResultActions action = mvc.perform(post("/api/v1/stores")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJson(request)));
 
@@ -118,7 +118,7 @@ class StoreControllerTest extends ControllerUnit {
         given(menuService.getAllInStore(storeId)).willReturn(menus);
 
         // when
-        ResultActions action = mvc.perform(get("/stores/{storeId}", storeId));
+        ResultActions action = mvc.perform(get("/api/v1/stores/{storeId}", storeId));
 
         // then
         action.andExpect(status().isOk())
@@ -170,7 +170,7 @@ class StoreControllerTest extends ControllerUnit {
         ));
 
         // when
-        ResultActions action = mvc.perform(get("/stores")
+        ResultActions action = mvc.perform(get("/api/v1/stores")
                 .param("latitude", String.valueOf(latitude))
                 .param("longitude", String.valueOf(longitude)));
 
