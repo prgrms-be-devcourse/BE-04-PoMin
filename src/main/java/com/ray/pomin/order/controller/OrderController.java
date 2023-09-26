@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,13 +22,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
+@Controller
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
 public class OrderController {
@@ -36,6 +37,7 @@ public class OrderController {
 
     private final PaymentService paymentService;
 
+    @ResponseBody
     @PostMapping
     public OrderResponse saveOrder(@RequestBody Cart cart) {
         Order order = cart.toOrder();
@@ -44,7 +46,8 @@ public class OrderController {
         return new OrderResponse(order);
     }
 
-    @GetMapping()
+    @ResponseBody
+    @GetMapping
     public List<OrderResponse> getOrdersByCustomerId(@AuthenticationPrincipal Claims claims) {
         List<Order> orders = orderService.getOrdersByCustomerId(claims.id());
         return orders.stream()
@@ -52,6 +55,7 @@ public class OrderController {
                 .collect(Collectors.toList());
     }
 
+    @ResponseBody
     @GetMapping("/payOrder")
     public ResponseEntity<Void> create(@RequestParam String orderNumber,
                                        @RequestParam String paymentKey,
@@ -62,6 +66,7 @@ public class OrderController {
         return ResponseEntity.created(URI.create("/api/v1/payments/" + paymentId)).build();
     }
 
+    @ResponseBody
     @PostMapping("/{orderNumber}")
     public ResponseEntity<OrderRequest> acceptOrder(@PathVariable String orderNumber, @RequestBody OrderRequest orderRequest) {
         Order order = orderService.getOrderByOrderNumber(orderNumber);
