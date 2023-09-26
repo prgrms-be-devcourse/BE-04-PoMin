@@ -57,11 +57,11 @@ public class OrderController {
 
     @ResponseBody
     @GetMapping("/payOrder")
-    public ResponseEntity<Void> create(@RequestParam String orderNumber,
+    public ResponseEntity<Void> create(@RequestParam String orderId,
                                        @RequestParam String paymentKey,
                                        @RequestParam int amount) {
-        Order order = orderService.getOrderByOrderNumber(orderNumber);
-        Long paymentId = paymentService.create(orderNumber, paymentKey, amount, order.getCustomerId());
+        Order order = orderService.getOrderByOrderNumber(orderId);
+        Long paymentId = paymentService.create(orderId, paymentKey, amount, order.getCustomerId());
         payOrder(order, paymentKey);
         return ResponseEntity.created(URI.create("/api/v1/payments/" + paymentId)).build();
     }
