@@ -30,6 +30,7 @@ public class StoreListRepositoryImpl implements StoreListRepository {
         return em.createQuery("""
                         select s
                         from Store s
+                        join fetch s.storeImages
                         where s.addressPoint.latitude between :minLatitude and :maxLatitude
                         and s.addressPoint.longitude between :minLongitude and :maxLongitude
                         """, Store.class)

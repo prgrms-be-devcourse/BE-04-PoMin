@@ -33,4 +33,8 @@ public class StoreTime {
         this.close = close;
     }
 
+    public boolean isOpen() {
+        return LocalTime.now().isAfter(open);
+    }
+
 }
