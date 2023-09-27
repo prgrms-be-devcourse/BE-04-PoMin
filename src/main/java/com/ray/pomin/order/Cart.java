@@ -7,14 +7,14 @@ import java.util.List;
 public record Cart(
         Long customerId,
         List<OrderItem> orderItems,
-        Store store
+        OrderInfo orderInfo
 
 ) {
     public Order toOrder() {
         return new Order().builder()
                 .customerId(customerId)
                 .orderItems(orderItems)
-                .store(store)
+                .orderInfo(orderInfo)
                 .build();
     }
 

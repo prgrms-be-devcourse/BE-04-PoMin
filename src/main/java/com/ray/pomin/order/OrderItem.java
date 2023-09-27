@@ -21,10 +21,6 @@ public class OrderItem extends BaseTimeEntity {
     @Column(name = "order_item_id")
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "MENU_ID")
-    private Menu menu;
-
     private String name;
 
     private int price;
@@ -32,14 +28,13 @@ public class OrderItem extends BaseTimeEntity {
     @Getter
     private int count;
 
-    public OrderItem(Menu menu, int count) {
-        this.menu = menu;
+    public OrderItem(int price, int count) {
+        this.price = price;
         this.count = count;
-        this.price = menu.getMenuInfo().getPrice() * count;
     }
 
     public int getItemPrice() {
-        return menu.getPrice() * count;
+        return price * count;
     }
 
 }
