@@ -14,7 +14,7 @@ public class MenuController {
 
     private final MenuService menuService;
 
-    @PostMapping("/menus")
+    @PostMapping("/api/v1/menus")
     public ResponseEntity<Void> saveMenu(@RequestBody SaveMenuRequest request) {
         menuService.save(request.toEntity());
 
