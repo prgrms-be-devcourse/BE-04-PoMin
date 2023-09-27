@@ -42,7 +42,7 @@ public class OrderController {
     public OrderResponse saveOrder(@RequestBody Cart cart) {
         Order order = cart.toOrder();
         orderService.createOrder(order);
-
+        System.out.println(order.getOrderItems());
         return new OrderResponse(order);
     }
 
