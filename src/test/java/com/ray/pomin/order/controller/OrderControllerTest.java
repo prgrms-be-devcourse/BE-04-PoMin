@@ -3,7 +3,7 @@ package com.ray.pomin.order.controller;
 import com.ray.pomin.common.domain.Point;
 import com.ray.pomin.customer.controller.base.ControllerUnit;
 import com.ray.pomin.order.Cart;
-import com.ray.pomin.order.Order;
+import com.ray.pomin.order.OrderInfo;
 import com.ray.pomin.order.service.OrderService;
 import com.ray.pomin.payment.service.PaymentService;
 import com.ray.pomin.store.controller.dto.StoreSaveRequest;
@@ -21,7 +21,6 @@ import java.util.List;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -38,6 +37,8 @@ class OrderControllerTest extends ControllerUnit {
 
     private Store store;
 
+    private OrderInfo orderInfo;
+
     @BeforeEach
     void setUp() {
         StoreSaveRequest request = new StoreSaveRequest(
@@ -52,11 +53,12 @@ class OrderControllerTest extends ControllerUnit {
         );
         Point point = new Point(34.123, 123.245);
         store = request.toEntity(point);
+        orderInfo = new OrderInfo("123", "123", "요청사항", 10);
     }
 
     @Test
     void saveOrder() throws Exception {
-        Cart cart = new Cart(1L, List.of(), store);
+        Cart cart = new Cart(1L, List.of(), orderInfo);
 
         ResultActions resultActions = mvc.perform(RestDocumentationRequestBuilders.post("/api/v1/orders")
                 .with(csrf())
@@ -70,20 +72,13 @@ class OrderControllerTest extends ControllerUnit {
                         document("order/save",
                                 responseFields(
                                         fieldWithPath("id").type(JsonFieldType.NULL).description("주문 ID"),
-                                        fieldWithPath("store").type(JsonFieldType.OBJECT).description("가게 정보"),
-                                        fieldWithPath("store.id").type(JsonFieldType.NUMBER).description("가게 아이디"),
-                                        fieldWithPath("store.name").type(JsonFieldType.STRING).description("가게 이름"),
-                                        fieldWithPath("store.createdDate").type(JsonFieldType.NULL).description("가게 생성시간"),
-                                        fieldWithPath("store.lastModifiedDate").type(JsonFieldType.NULL).description("가게 수정시간"),
-                                        fieldWithPath("store.phoneNumber").type(JsonFieldType.STRING).description("가게 전화번호"),
-                                        fieldWithPath("store.time").type(JsonFieldType.OBJECT).description("가게 시간"),
-                                        fieldWithPath("store.time.open").type(JsonFieldType.STRING).description("가게 오픈시간"),
-                                        fieldWithPath("store.time.close").type(JsonFieldType.STRING).description("가게 마감시간"),
-                                        fieldWithPath("store.storeImages").type(JsonFieldType.ARRAY).description("가게 이미지"),
-                                        fieldWithPath("orderInfo").type(JsonFieldType.NULL).description("주문 정보"),
-                                        fieldWithPath("totalPrice").type(JsonFieldType.NUMBER).description("주문 총 가격"),
-                                        fieldWithPath("payment").type(JsonFieldType.NULL).description("결제 정보")
-                                        )
+                                        fieldWithPath("orderInfo").type(JsonFieldType.OBJECT).description("주문 정보"),
+                                        fieldWithPath("orderInfo.orderNumber").type(JsonFieldType.STRING).description("주문 번호"),
+                                        fieldWithPath("orderInfo.registrationNumber").type(JsonFieldType.STRING).description("접수 번호"),
+                                        fieldWithPath("orderInfo.request").type(JsonFieldType.STRING).description("요청 사항"),
+                                        fieldWithPath("orderInfo.cookingMinute").type(JsonFieldType.NUMBER).description("조리 시간"),
+                                        fieldWithPath("totalPrice").type(JsonFieldType.NUMBER).description("주문 총 가격")
+                                )
                         )
                 );
 

@@ -7,19 +7,15 @@ import com.ray.pomin.store.domain.Store;
 
 public record OrderResponse(
         Long id,
-        Store store,
         OrderInfo orderInfo,
-        int totalPrice,
-        Payment payment
+        int totalPrice
 ) {
 
     public OrderResponse(Order order) {
         this(
                 order.getId(),
-                order.getStore(),
                 order.getOrderInfo(),
-                order.getTotalPrice(),
-                order.getPayment()
+                order.getTotalPrice()
         );
     }
 
