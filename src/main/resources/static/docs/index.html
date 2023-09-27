@@ -436,24 +436,336 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
 <h1>PoMin Customer Docs</h1>
 <div class="details">
 <span id="revnumber">version 0.0.1-SNAPSHOT</span>
 </div>
+<div id="toc" class="toc2">
+<div id="toctitle">API</div>
+<ul class="sectlevel1">
+<li><a href="#_customer_save">Customer Save</a>
+<ul class="sectlevel2">
+<li><a href="#_customer_save_http_request">HTTP request</a></li>
+<li><a href="#_customer_save_http_response">HTTP response</a></li>
+</ul>
+</li>
+<li><a href="#_customer_save_oauth">Customer Save OAuth</a>
+<ul class="sectlevel2">
+<li><a href="#_customer_save_oauth_http_request">HTTP request</a></li>
+<li><a href="#_customer_save_oauth_http_response">HTTP response</a></li>
+</ul>
+</li>
+<li><a href="#_menu_save">Menu Save</a>
+<ul class="sectlevel2">
+<li><a href="#_menu_save_http_request">HTTP request</a></li>
+<li><a href="#_menu_save_http_response">HTTP response</a></li>
+</ul>
+</li>
+<li><a href="#_order_save">Order Save</a>
+<ul class="sectlevel2">
+<li><a href="#_order_save_http_request">HTTP request</a></li>
+<li><a href="#_order_save_http_response">HTTP response</a></li>
+</ul>
+</li>
+<li><a href="#_payment_find_one">Payment Find One</a>
+<ul class="sectlevel2">
+<li><a href="#_payment_find_one_http_request">HTTP request</a></li>
+<li><a href="#_payment_find_one_http_response">HTTP response</a></li>
+</ul>
+</li>
+<li><a href="#_payment_fail">Payment Fail</a>
+<ul class="sectlevel2">
+<li><a href="#_payment_fail_http_request">HTTP request</a></li>
+<li><a href="#_payment_fail_http_response">HTTP response</a></li>
+</ul>
+</li>
+<li><a href="#_store_save">Store Save</a>
+<ul class="sectlevel2">
+<li><a href="#_store_save_http_request">HTTP request</a></li>
+<li><a href="#_store_save_http_response">HTTP response</a></li>
+</ul>
+</li>
+<li><a href="#_store_find_all">Store Find All</a>
+<ul class="sectlevel2">
+<li><a href="#_store_find_all_http_request">HTTP request</a></li>
+<li><a href="#_store_find_all_http_response">HTTP response</a></li>
+</ul>
+</li>
+<li><a href="#_store_find_one">Store Find One</a>
+<ul class="sectlevel2">
+<li><a href="#_store_find_one_http_request">HTTP request</a></li>
+<li><a href="#_store_find_one_http_response">HTTP response</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
-<div class="paragraph">
-<p>==</p>
+<div class="sect1">
+<h2 id="_customer_save"><a class="link" href="#_customer_save">Customer Save</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_customer_save_http_request"><a class="link" href="#_customer_save_http_request">HTTP request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/customers HTTP/1.1
+Content-Type: application/json
+Content-Length: 161
+Host: localhost:8080
+
+{"email":"email@gamil.com","password":"Password1!","name":"user","nickname":"nickname","birthDate":"1999-01-29","phoneNumber":"010-1234-5678","provider":"KAKAO"}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_customer_save_http_response"><a class="link" href="#_customer_save_http_response">HTTP response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 29
+
+{"accessToken":"accessToken"}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_customer_save_oauth"><a class="link" href="#_customer_save_oauth">Customer Save OAuth</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_customer_save_oauth_http_request"><a class="link" href="#_customer_save_oauth_http_request">HTTP request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/customers/oauth HTTP/1.1
+Content-Type: application/json
+Content-Length: 90
+Host: localhost:8080
+
+{"nickname":"nickname","birthDate":"1999-01-29","phoneNumber":"010-1234-5678","oAuthId":1}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_customer_save_oauth_http_response"><a class="link" href="#_customer_save_oauth_http_response">HTTP response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 29
+
+{"accessToken":"accessToken"}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_menu_save"><a class="link" href="#_menu_save">Menu Save</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_menu_save_http_request"><a class="link" href="#_menu_save_http_request">HTTP request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /menus HTTP/1.1
+Content-Type: application/json
+Content-Length: 148
+Host: localhost:8080
+
+{"id":1,"name":"name","price":"1000","imageUrl":"imageUrl","menuOptionName":"best_seller","description":"description","verifyAge":false,"storeId":1}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_menu_save_http_response"><a class="link" href="#_menu_save_http_response">HTTP response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_order_save"><a class="link" href="#_order_save">Order Save</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_order_save_http_request"><a class="link" href="#_order_save_http_request">HTTP request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/orders?_csrf=lp7A_HmDyobGntxxSnFFdAFdkk6hv19zqigiqeTnShEZsAKL9Knxn0ni-b7rrblBeVxxFzU7vy_Cj21ezB9DzIHSK3ch1TW- HTTP/1.1
+Content-Type: application/json
+Content-Length: 204
+Host: localhost:8080
+
+{"customerId":1,"orderItems":[],"store":{"createdDate":null,"lastModifiedDate":null,"id":1,"name":"storeName","phoneNumber":"010-1234-5678","time":{"open":"12:00:00","close":"22:00:00"},"storeImages":[]}}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_order_save_http_response"><a class="link" href="#_order_save_http_response">HTTP response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 230
+
+{"id":null,"store":{"createdDate":null,"lastModifiedDate":null,"id":1,"name":"storeName","phoneNumber":"010-1234-5678","time":{"open":"12:00:00","close":"22:00:00"},"storeImages":[]},"orderInfo":null,"totalPrice":0,"payment":null}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_payment_find_one"><a class="link" href="#_payment_find_one">Payment Find One</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_payment_find_one_http_request"><a class="link" href="#_payment_find_one_http_request">HTTP request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/payments/1?_csrf=2-AA0B7nQBonWmv0R6oiz8X_Z-yWkHQ9O-shKy4Qo6nN6XeIuNc4sn2EJX8KY1_AcocW96DMStSmokwQCIkTG08plJyr0RO8 HTTP/1.1
+Content-Type: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_payment_find_one_http_response"><a class="link" href="#_payment_find_one_http_response">HTTP response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 76
+
+{"id":1,"amount":1000,"status":"COMPLETE","payMethod":"CARD","payType":"KB"}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_payment_fail"><a class="link" href="#_payment_fail">Payment Fail</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_payment_fail_http_request"><a class="link" href="#_payment_fail_http_request">HTTP request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/payment/fail?code=PAY_PROCESS_CANCELED&amp;message=%EC%82%AC%EC%9A%A9%EC%9E%90%EC%97%90+%EC%9D%98%ED%95%B4+%EA%B2%B0%EC%A0%9C%EA%B0%80+%EC%B7%A8%EC%86%8C%EB%90%98%EC%97%88%EC%8A%B5%EB%8B%88%EB%8B%A4.&amp;orderId=4021695805856174&amp;_csrf=qN8ioTz3dCzAlVMJvS-UK9Ld-G5hbIU7iaA7f4dQjxwqD5lfyb4RkwXGRR3t8TA7jgKgSuPv1Q8CWeYWsJYOR-ZmvioTbals HTTP/1.1
+Content-Type: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_payment_fail_http_response"><a class="link" href="#_payment_fail_http_response">HTTP response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 95
+
+{"message":"사용자에 의해 결제가 취소되었습니다.","orderId":"4021695805856174"}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_store_save"><a class="link" href="#_store_save">Store Save</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_store_save_http_request"><a class="link" href="#_store_save_http_request">HTTP request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/stores HTTP/1.1
+Content-Type: application/json
+Content-Length: 179
+Host: localhost:8080
+
+{"id":1,"name":"storeName","phoneNumber":"010-1234-5678","mainAddress":"서울시 강남구 역삼동","detailAddress":"12-234","openTime":"12:00","closeTime":"22:00","images":[]}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_store_save_http_response"><a class="link" href="#_store_save_http_response">HTTP response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_store_find_all"><a class="link" href="#_store_find_all">Store Find All</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_store_find_all_http_request"><a class="link" href="#_store_find_all_http_request">HTTP request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/stores?latitude=37.6531852873842&amp;longitude=127.04778768624769 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_store_find_all_http_response"><a class="link" href="#_store_find_all_http_response">HTTP response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 81
+
+[{"name":"store1","imageUrl":["image1"]},{"name":"store2","imageUrl":["image1"]}]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_store_find_one"><a class="link" href="#_store_find_one">Store Find One</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_store_find_one_http_request"><a class="link" href="#_store_find_one_http_request">HTTP request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/stores/1 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_store_find_one_http_response"><a class="link" href="#_store_find_one_http_response">HTTP response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 270
+
+{"storeName":"store1","phoneNumber":"010-1234-5678","address":"서울시 강남구 역삼동12-2","images":["imageUrl1","imageUrl2"],"menuInfos":[{"menuName":"menu1","price":"10000","description":"description","imageUrl":"image","label":"BEST_SELLER","verifyAge":true}]}</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-09-25 16:12:40 +0900
+Last updated 2023-09-27 16:52:04 +0900
 </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
 </body>
 </html>

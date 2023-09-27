@@ -13,7 +13,7 @@ operation::customer/save[snippets='http-request,http-response']
 operation::customer/saveOAuth[snippets='http-request,http-response']
 
 == Menu Save
-operation::customer/save[snippets='http-request,http-response']
+operation::menu/save[snippets='http-request,http-response']
 
 == Order Save
 operation::order/save[snippets='http-request,http-response']
