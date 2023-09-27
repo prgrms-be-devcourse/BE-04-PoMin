@@ -20,4 +20,5 @@ public class MenuController {
 
         return ResponseEntity.ok().build();
     }
+
 }

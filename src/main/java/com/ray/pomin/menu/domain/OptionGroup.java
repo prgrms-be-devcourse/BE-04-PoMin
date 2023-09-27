@@ -7,9 +7,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static jakarta.persistence.CascadeType.ALL;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -35,5 +40,21 @@ public class OptionGroup extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "menu_id")
     private Menu menu;
+
+    @OneToMany(mappedBy = "optionGroup", cascade = ALL, orphanRemoval = true)
+    private List<Option> options = new ArrayList<>();
+
+    public OptionGroup(Long id, String name, boolean defaultSelection, boolean exclusiveSelection, int maxSize, Menu menu) {
+        this.id = id;
+        this.name = name;
+        this.defaultSelection = defaultSelection;
+        this.exclusiveSelection = exclusiveSelection;
+        this.maxSize = maxSize;
+        this.menu = menu;
+    }
+
+    public void addOption(List<Option> options) {
+        this.options.addAll(options);
+    }
 
 }
