@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(OrderController.class)
-public class OrderControllerTest extends ControllerUnit {
+class OrderControllerTest extends ControllerUnit {
 
     @MockBean
     private OrderService orderService;
@@ -71,6 +71,7 @@ public class OrderControllerTest extends ControllerUnit {
                                 responseFields(
                                         fieldWithPath("id").type(JsonFieldType.NULL).description("주문 ID"),
                                         fieldWithPath("store").type(JsonFieldType.OBJECT).description("가게 정보"),
+                                        fieldWithPath("store.id").type(JsonFieldType.NUMBER).description("가게 아이디"),
                                         fieldWithPath("store.name").type(JsonFieldType.STRING).description("가게 이름"),
                                         fieldWithPath("store.createdDate").type(JsonFieldType.NULL).description("가게 생성시간"),
                                         fieldWithPath("store.lastModifiedDate").type(JsonFieldType.NULL).description("가게 수정시간"),
