@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.ray.pomin.global.util.Validator.validate;
+import static jakarta.persistence.CascadeType.MERGE;
 import static jakarta.persistence.CascadeType.PERSIST;
 import static jakarta.persistence.CascadeType.REMOVE;
 import static java.util.Objects.isNull;
@@ -26,6 +27,7 @@ import static lombok.AccessLevel.PROTECTED;
 public class Store extends BaseTimeEntity {
 
     @Id
+    @Getter
     private Long id;
 
     private String name;
@@ -42,7 +44,7 @@ public class Store extends BaseTimeEntity {
     @Embedded
     private StoreTime time;
 
-    @OneToMany(mappedBy = "store", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "store", cascade = {PERSIST, MERGE, REMOVE}, orphanRemoval = true)
     private List<StoreImage> storeImages = new ArrayList<>();
 
     public Store(String name, String phoneNumber, Address address, Point addressPoint, StoreTime time, List<String> images) {
