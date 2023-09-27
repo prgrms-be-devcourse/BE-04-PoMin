@@ -45,13 +45,11 @@ public class Order extends BaseTimeEntity {
 
     @Builder.Default
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "ORDER_ID")
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "STORE_ID")
     private Store store;
-
 
     @Column(name = "CUSTOMER_ID")
     private Long customerId;

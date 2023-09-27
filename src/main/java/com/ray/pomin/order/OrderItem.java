@@ -7,25 +7,26 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "order_item_id")
+    @Column(name = "ORDER_ITEM_ID")
     private Long id;
 
     private String name;
 
     private int price;
 
-    @Getter
     private int count;
 
     public OrderItem(int price, int count) {
