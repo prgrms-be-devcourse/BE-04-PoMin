@@ -29,10 +29,6 @@ public class OrderItem extends BaseTimeEntity {
 
     private int count;
 
-    @ManyToOne
-    @JoinColumn(name = "ORDER_ID")
-    private Order order;
-
     public OrderItem(int price, int count) {
         this.price = price;
         this.count = count;
