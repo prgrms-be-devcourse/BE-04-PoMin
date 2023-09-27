@@ -19,6 +19,11 @@ public class MenuService {
         menuRepository.save(menu);
     }
 
+    public Menu getOne(Long menuId) {
+        return menuRepository.findById(menuId)
+                .orElseThrow(() -> new IllegalArgumentException("찾고자하는 메뉴가 없습니다"));
+    }
+
     public List<Menu> getAllInStore(Long storeId) {
         return menuRepository.findAllByStoreId(storeId);
     }
