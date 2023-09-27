@@ -91,8 +91,8 @@ public class OrderTest {
 
     @Test
     public void testGetTotalPrice() {
-        OrderItem item1 = new OrderItem(menu1, 2);
-        OrderItem item2 = new OrderItem(menu2, 3);
+        OrderItem item1 = new OrderItem(1000, 2);
+        OrderItem item2 = new OrderItem(2000, 3);
 
         Order order = Order.builder()
                 .orderStatus(OrderStatus.CREATED)

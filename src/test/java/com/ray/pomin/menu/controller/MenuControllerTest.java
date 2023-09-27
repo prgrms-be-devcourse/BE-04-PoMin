@@ -43,7 +43,7 @@ class MenuControllerTest extends ControllerUnit {
         doNothing().when(menuService).save(any(Menu.class));
 
         // when
-        ResultActions action = mvc.perform(post("/menus")
+        ResultActions action = mvc.perform(post("/api/v1/menus")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJson(request))
         );
