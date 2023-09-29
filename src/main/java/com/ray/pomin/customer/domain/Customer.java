@@ -74,4 +74,8 @@ public class Customer {
     public String getPassword() {
         return login.getPassword();
     }
+
+    public String getPhoneNumber() {
+        return information.getNumber();
+    }
 }

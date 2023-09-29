@@ -107,6 +107,18 @@ public class Order extends BaseTimeEntity {
                 .sum();
     }
 
+    public String getOrderNumber() {
+        return orderInfo.getOrderNumber();
+    }
+
+    public String getRequest() {
+        return orderInfo.getRequest();
+    }
+
+    public Long getStoreId() {
+        return store.getId();
+    }
+
     public Order acceptOrder(OrderInfo orderInfo) {
         return Order.builder()
                 .id(this.id)

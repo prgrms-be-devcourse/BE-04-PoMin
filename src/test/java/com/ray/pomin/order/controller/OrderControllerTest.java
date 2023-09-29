@@ -2,6 +2,7 @@ package com.ray.pomin.order.controller;
 
 import com.ray.pomin.common.domain.Point;
 import com.ray.pomin.customer.controller.base.ControllerUnit;
+import com.ray.pomin.customer.service.CustomerService;
 import com.ray.pomin.order.Cart;
 import com.ray.pomin.order.OrderInfo;
 import com.ray.pomin.order.service.OrderService;
@@ -16,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -34,6 +36,12 @@ class OrderControllerTest extends ControllerUnit {
 
     @MockBean
     private PaymentService paymentService;
+
+    @MockBean
+    private CustomerService customerService;
+
+    @MockBean
+    private RestTemplate restTemplate;
 
     private Store store;
 
