@@ -95,7 +95,7 @@ public class OrderController {
         return responseEntity;
     }
 
-    private static HttpHeaders createHeader() {
+    private HttpHeaders createHeader() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         return headers;
