@@ -1,17 +1,22 @@
 package com.ray.pomin.order.controller;
 
 
+import com.ray.pomin.customer.domain.Customer;
+import com.ray.pomin.customer.service.CustomerService;
 import com.ray.pomin.global.auth.model.Claims;
 import com.ray.pomin.order.Cart;
 import com.ray.pomin.order.Order;
 import com.ray.pomin.order.OrderInfo;
+import com.ray.pomin.order.controller.dto.AcceptedOrderRequest;
 import com.ray.pomin.order.controller.dto.OrderRequest;
 import com.ray.pomin.order.controller.dto.OrderResponse;
 import com.ray.pomin.order.service.OrderService;
 import com.ray.pomin.payment.domain.Payment;
 import com.ray.pomin.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -23,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.List;
@@ -36,6 +42,10 @@ public class OrderController {
     private final OrderService orderService;
 
     private final PaymentService paymentService;
+
+    private final CustomerService customerService;
+
+    private final RestTemplate restTemplate;
 
     @ResponseBody
     @PostMapping
@@ -72,8 +82,23 @@ public class OrderController {
         Order order = orderService.getOrderByOrderNumber(orderNumber);
         OrderInfo orderInfo = orderRequest.createOrderInfo(orderNumber);
         orderService.acceptOrder(order, orderInfo);
+        ResponseEntity<OrderRequest> responseEntity = sendAcceptedOrder(order);
+        return responseEntity;
+    }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+    private ResponseEntity<OrderRequest> sendAcceptedOrder(Order order) {
+        Customer customer = customerService.getOne(order.getCustomerId());
+        HttpHeaders headers = createHeader();
+        AcceptedOrderRequest acceptedOrderRequest = new AcceptedOrderRequest(order, customer);
+        HttpEntity<AcceptedOrderRequest> requestEntity = new HttpEntity<>(acceptedOrderRequest, headers);
+        ResponseEntity<OrderRequest> responseEntity = restTemplate.postForEntity("/api/v1/orders", requestEntity, OrderRequest.class);
+        return responseEntity;
+    }
+
+    private static HttpHeaders createHeader() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return headers;
     }
 
 

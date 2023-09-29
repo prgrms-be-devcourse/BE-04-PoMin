@@ -24,4 +24,8 @@ public class PhoneNumber {
         this.number = number;
     }
 
+    public String getNumber() {
+        return number;
+    }
+
 }

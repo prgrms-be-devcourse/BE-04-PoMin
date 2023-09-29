@@ -34,4 +34,8 @@ public class CustomerInfo {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getNumber() {
+        return phoneNumber.getNumber();
+    }
+
 }

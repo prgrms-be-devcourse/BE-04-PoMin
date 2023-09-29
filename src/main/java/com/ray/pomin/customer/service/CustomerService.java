@@ -31,4 +31,9 @@ public class CustomerService {
                 .orElseThrow(() -> new IllegalArgumentException("소셜 로그인을 먼저 진행해야 합니다"));
     }
 
+    public Customer getOne(Long customerId) {
+        return customerRepository.findById(customerId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
+    }
+
 }
