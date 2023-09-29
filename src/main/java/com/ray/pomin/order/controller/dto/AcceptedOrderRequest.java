@@ -24,7 +24,7 @@ public record AcceptedOrderRequest(
                 order.getRequest(),
                 order.getTotalPrice(),
                 customer.getPhoneNumber(),
-                order.getCreatedDate(),
+                order.getPayment().getApprovedAt(),
                 order.getId(),
                 new PaymentCreateRequest(order.getPayment())
         );
