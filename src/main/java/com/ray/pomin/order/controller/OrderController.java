@@ -82,8 +82,7 @@ public class OrderController {
         Order order = orderService.getOrderByOrderNumber(orderNumber);
         OrderInfo orderInfo = orderRequest.createOrderInfo(orderNumber);
         orderService.acceptOrder(order, orderInfo);
-        ResponseEntity<OrderRequest> responseEntity = sendAcceptedOrder(order);
-        return responseEntity;
+        return sendAcceptedOrder(order);
     }
 
     private ResponseEntity<OrderRequest> sendAcceptedOrder(Order order) {
@@ -91,8 +90,7 @@ public class OrderController {
         HttpHeaders headers = createHeader();
         AcceptedOrderRequest acceptedOrderRequest = new AcceptedOrderRequest(order, customer);
         HttpEntity<AcceptedOrderRequest> requestEntity = new HttpEntity<>(acceptedOrderRequest, headers);
-        ResponseEntity<OrderRequest> responseEntity = restTemplate.postForEntity("/api/v1/orders", requestEntity, OrderRequest.class);
-        return responseEntity;
+        return restTemplate.postForEntity("/api/v1/orders", requestEntity, OrderRequest.class);
     }
 
     private HttpHeaders createHeader() {
